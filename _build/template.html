@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1024">
+<title>Japan 2026</title>
+<style>
+@font-face { font-family: 'Shippori Mincho'; font-weight: 400; font-display: block; src: url(assets/fonts/shippori-400-japanese.woff2) format('woff2'); }
+@font-face { font-family: 'Shippori Mincho'; font-weight: 700; font-display: block; src: url(assets/fonts/shippori-700-japanese.woff2) format('woff2'); }
+@font-face { font-family: 'Shippori Mincho'; font-weight: 400; font-display: block; src: url(assets/fonts/shippori-400-latin.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212; }
+@font-face { font-family: 'Shippori Mincho'; font-weight: 700; font-display: block; src: url(assets/fonts/shippori-700-latin.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212; }
+@font-face { font-family: 'Caveat'; font-weight: 600; font-display: block; src: url(assets/fonts/caveat-600-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113; }
+@font-face { font-family: 'Caveat'; font-weight: 600; font-display: block; src: url(assets/fonts/caveat-600-latin.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212; }
+:root {
+  --z: 62;
+  --train: #5aa2ff; --foot: #ff5a36; --bike: #2fd3a0; --flight: #f4c44e;
+  --paper: #f3eee4; --ink: #25221e;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+}
+html, body { margin: 0; height: 100%; }
+body {
+  background: radial-gradient(ellipse at 62% 38%, #14213f 0%, #0a1122 50%, #04070e 100%);
+  color: #eef0f5; font-family: var(--sans); overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+.fallback-message { display: none; }
+.impress-not-supported .fallback-message { display: block; padding: 40px; font-size: 24px; }
+.impress-not-supported .step { display: none; }
+
+/* ------------------------------------------------------------ map */
+.step.map { opacity: 1 !important; pointer-events: none; }
+.mapsvg, .worldsvg { display: block; overflow: visible; }
+.land { fill: #16213a; stroke: #3a4c78; stroke-width: calc(var(--z) * 1.1px); stroke-linejoin: round; }
+.lake { fill: #0b1226; stroke: #3a4c78; stroke-width: calc(var(--z) * .8px); }
+.grat { stroke: #172340; stroke-width: calc(var(--z) * 1px); }
+.gl { fill: #34446b; font: calc(var(--z) * 13px) var(--sans); }
+.ghost { fill: none; stroke-width: calc(var(--z) * 2px); stroke-linecap: round; stroke-linejoin: round; opacity: .16; }
+.ghost.m-train { stroke-dasharray: calc(var(--z) * 8px) calc(var(--z) * 8px); }
+.leg { fill: none; stroke-width: calc(var(--z) * 4px); stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+.m-train { stroke: var(--train); } .m-foot { stroke: var(--foot); } .m-bike { stroke: var(--bike); } .m-flight { stroke: var(--flight); }
+.leg.m-train { stroke-dasharray: calc(var(--z) * 9px) calc(var(--z) * 7px); stroke-width: calc(var(--z) * 3px); }
+.leg.flight { stroke-width: calc(var(--z) * 5px); }
+.leg.on { opacity: 1; }
+.pdot { r: calc(var(--z) * 3.2px); fill: #fff4d8; opacity: 0; }
+.pdot.on { opacity: .9; }
+.place .pd { r: calc(var(--z) * 4.5px); fill: #ece5d3; }
+.place .pl { font: 600 calc(var(--z) * 16px) / 1 var(--sans); fill: #dfe5f1; paint-order: stroke; stroke: #0a1122; stroke-width: calc(var(--z) * 4px);
+  transform: translate(calc(var(--z) * 10px), calc(var(--z) * 6px)); }
+.place.city .pl { font-size: calc(var(--z) * 22px); font-weight: 700; }
+.place.city .pd { r: calc(var(--z) * 6px); }
+.place.left .pl { text-anchor: end; transform: translate(calc(var(--z) * -10px), calc(var(--z) * 6px)); }
+.peak.left .pk { text-anchor: end; transform: translate(calc(var(--z) * -14px), 0); }
+.place.dim .pd { fill: #56648a; r: calc(var(--z) * 3px); }
+.place.dim .pl { fill: #7584a8; font-weight: 400; }
+.jp { font-family: var(--serif); fill-opacity: .75; }
+.water { font: italic 400 calc(var(--z) * 17px) var(--serif); fill: #3f5283; letter-spacing: .25em; text-anchor: middle; }
+.peak .tri { font: calc(var(--z) * 18px) var(--sans); fill: #f3eee4; }
+.peak .pk { font: 600 calc(var(--z) * 15px) var(--sans); fill: #f3eee4; paint-order: stroke; stroke: #0a1122; stroke-width: calc(var(--z) * 4px);
+  transform: translate(calc(var(--z) * 14px), calc(var(--z) * 0px)); }
+.peak .ph { fill: #f4c44e; font-weight: 400; }
+
+/* ------------------------------------------------------------ steps */
+.step { opacity: .5; transition: opacity .9s; }
+.step.active { opacity: 1; }
+.step.chapter, .step.title-step, .step.flight-step, .step.viz { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .9s, visibility 0s .9s; }
+.step.chapter.active, .step.title-step.active, .step.flight-step.active, .step.viz.active { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity .9s, visibility 0s; }
+.step.card.past, .step.card.future { opacity: .55; }
+
+/* polaroid */
+.polaroid { margin: 0; background: var(--paper); padding: 22px 22px 0; border-radius: 3px; position: relative;
+  transform: rotate(var(--tilt, 0deg));
+  box-shadow: 0 24px 40px -14px rgba(0, 0, 0, .75); }
+.polaroid::before { content: ''; position: absolute; top: -24px; left: 50%; width: 230px; height: 50px;
+  transform: translateX(-50%) rotate(-2.5deg); background: var(--tape); opacity: .82; }
+.tape-train { --tape: var(--train); } .tape-foot { --tape: var(--foot); } .tape-bike { --tape: var(--bike); } .tape-flight { --tape: var(--flight); }
+.photos { display: flex; gap: 20px; }
+.ph { overflow: hidden; background: #d9d3c6; position: relative; }
+.ph img, .ph video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ph[data-alt]::after { content: attr(data-alt); position: absolute; right: 16px; top: 16px; font: 800 30px var(--sans); color: #fff;
+  background: rgba(255, 90, 54, .92); padding: 8px 18px; border-radius: 40px; letter-spacing: .02em; }
+.step.card.culled { visibility: hidden; }
+.ph .play { position: absolute; left: 18px; top: 16px; font: 700 18px var(--sans); letter-spacing: .12em; color: #fff; background: rgba(0, 0, 0, .45); padding: 6px 12px; border-radius: 30px; }
+figcaption { height: 118px; display: flex; flex-direction: column; justify-content: center; padding: 0 6px; }
+.cap { font: 600 50px/1.02 'Caveat', cursive; color: var(--ink); }
+.meta { font: 600 16px/1.2 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #8d8577; margin-top: 8px; }
+
+/* chapter titles */
+.chapter, .title-step, .flight-step { width: 1920px; height: 1080px; }
+.ch-inner { position: absolute; left: 120px; top: 50%; transform: translateY(-50%); max-width: 1250px; padding: 70px 90px 80px 80px;
+  background: radial-gradient(closest-side, rgba(6, 10, 21, .92), rgba(6, 10, 21, .75) 65%, rgba(6, 10, 21, 0)); border-radius: 50%; }
+.ch-num { font: 700 26px var(--sans); letter-spacing: .4em; color: var(--flight); }
+.ch-jp { font: 700 210px/1.05 var(--serif); color: #fff; text-shadow: 0 10px 50px rgba(0, 0, 0, .6); }
+.ch-en { font: 700 86px/1.05 var(--serif); color: #f3eee4; }
+.ch-dates { font: 700 26px var(--sans); letter-spacing: .18em; text-transform: uppercase; color: #9fb3dc; margin-top: 26px; }
+.ch-sub { font: 400 36px/1.35 var(--sans); color: #d9dfea; margin: 16px 0 0; max-width: 1050px; }
+
+/* overview / route / thanks */
+.ov-inner { position: absolute; right: 70px; bottom: 60px; text-align: right; max-width: 1150px; padding: 40px 50px;
+  background: radial-gradient(closest-side, rgba(6, 10, 21, .85), rgba(6, 10, 21, .55) 70%, rgba(6, 10, 21, 0)); }
+.ov-jp { font: 700 230px/1 var(--serif); color: #fff; }
+.ov-en { font: 700 120px/1 var(--serif); color: #f3eee4; }
+.ov-en span { color: var(--flight); }
+.ov-en.small { font-size: 96px; }
+.ov-sub { font: 400 36px/1.35 var(--sans); color: #d9dfea; margin-top: 18px; }
+.ov-meta { font: 700 24px var(--sans); letter-spacing: .2em; text-transform: uppercase; color: #9fb3dc; margin-top: 18px; }
+.ov-hint { font: 600 20px var(--sans); color: #7584a8; margin-top: 26px; letter-spacing: .1em; }
+.ov-stats { display: flex; gap: 46px; justify-content: flex-end; margin-top: 30px; }
+.ov-stats b { display: block; white-space: nowrap; font: 700 58px var(--sans); color: #fff; }
+.ov-stats span { font: 600 20px var(--sans); color: #9fb3dc; text-transform: uppercase; letter-spacing: .1em; }
+.route-legend { display: flex; gap: 30px; justify-content: flex-end; margin-top: 30px; font: 600 22px var(--sans); color: #cfd6e6; }
+.route-legend span { display: flex; align-items: center; gap: 12px; }
+.route-legend i { display: inline-block; width: 46px; height: 7px; border-radius: 4px; }
+.lg-flight { background: var(--flight); } .lg-foot { background: var(--foot); } .lg-bike { background: var(--bike); }
+.lg-train { background: repeating-linear-gradient(90deg, var(--train) 0 12px, transparent 12px 20px); }
+.route-legend i.lg-dot { width: 14px; height: 14px; border-radius: 50%; background: #fff4d8; }
+
+/* flights */
+.fly-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.fly-big { font-size: 170px; color: var(--flight); line-height: 1; transform: rotate(-12deg); }
+.fly-t { font: 700 110px var(--serif); color: #fff; margin-top: 10px; }
+.fly-s { font: 400 36px var(--sans); color: #d9dfea; margin-top: 10px; }
+
+/* data panels */
+.viz { width: 1800px; }
+.panel { background: rgba(18, 26, 44, .97); border-radius: 26px; padding: 44px 54px 34px; box-shadow: 0 0 0 1px #243049; }
+.panel header { display: grid; grid-template-columns: 1fr auto; align-items: end; column-gap: 40px; }
+.panel h2 { font: 700 64px/1.05 var(--serif); margin: 0; color: #fff; grid-column: 1; }
+.panel header p { font: 400 28px/1.3 var(--sans); color: #b4bccd; margin: 10px 0 0; grid-column: 1; }
+.panel header p strong { color: #fff; }
+.legend { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: flex-end; max-width: 640px; font: 600 22px var(--sans); color: #cfd6e6; }
+.legend span { display: flex; align-items: center; gap: 10px; }
+.legend i { width: 16px; height: 16px; border-radius: 50%; display: inline-block; }
+.legend .tri-k { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 17px solid; display: inline-block; }
+svg.chart { width: 100%; height: auto; display: block; margin-top: 24px; overflow: visible; }
+svg.chart text { font-family: var(--sans); }
+.axl { fill: #8a94ab; font-size: 21px; }
+.axl.strong { fill: #dfe5f1; font-weight: 700; }
+.grid { stroke: #243049; stroke-width: 1; }
+.gx { stroke: #3a4560; }
+.ref { stroke: #b4bccd; stroke-width: 1.5; stroke-dasharray: 8 8; opacity: .7; }
+.refl { fill: #b4bccd; font-size: 20px; font-weight: 600; }
+.refs { fill: #7f89a0; font-weight: 400; }
+.anno { fill: #c5ccdb; font-size: 21px; font-weight: 600; }
+.anno.strong { fill: #fff; font-size: 27px; font-weight: 800; }
+.band { fill: #c5ccdb; font-size: 17px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.dot { stroke: #121a2c; stroke-width: 2.5; }
+.dot:hover, .tri-m:hover { stroke: #fff; }
+.tri-m { stroke: #121a2c; stroke-width: 2.5; }
+.dayl { fill: #dfe5f1; font-size: 22px; font-weight: 700; }
+.hutl { fill: #f3eee4; font-size: 19px; font-weight: 700; }
+.moon { fill: #4b5878; font-size: 24px; }
+.rowl { fill: #eef0f5; font-size: 32px; font-weight: 700; }
+.val { fill: #fff; font-size: 34px; font-weight: 800; }
+.panel footer { font: 400 19px/1.4 var(--sans); color: #7f89a0; margin-top: 18px; }
+.tiles { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; margin-top: 10px; }
+.tile { background: #1a2442; border-radius: 16px; padding: 22px 24px; }
+.tile .tl { font: 700 17px var(--sans); color: #9fb3dc; text-transform: uppercase; letter-spacing: .1em; }
+.tile .tv { font: 800 46px var(--sans); color: #fff; margin-top: 8px; white-space: nowrap; }
+.polaroid.mini { flex: none; }
+.polaroid.mini .cap { font-size: 38px; }
+
+/* HUD */
+#hud { position: fixed; left: 34px; bottom: 30px; z-index: 10; pointer-events: none; transition: opacity .6s; }
+#hud .d1 { font: 800 15px var(--sans); letter-spacing: .3em; color: var(--flight); text-transform: uppercase; }
+#hud .d2 { font: 700 30px var(--serif); color: #fff; margin-top: 6px; text-shadow: 0 2px 12px rgba(0, 0, 0, .8); }
+#hud .d3 { font: 600 15px var(--sans); letter-spacing: .14em; color: #9fb3dc; text-transform: uppercase; margin-top: 6px; }
+#hud.hidden { opacity: 0; }
+#progress { position: fixed; left: 0; bottom: 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--foot), var(--flight)); z-index: 10; transition: width .8s; }
+</style>
+</head>
+<body class="impress-not-supported">
+<div class="fallback-message"><p>This presentation needs a modern desktop browser (Chrome, Edge, Firefox or Safari).</p></div>
+<div id="impress" data-width="1920" data-height="1080" data-max-scale="4" data-min-scale="0" data-perspective="1000" data-transition-duration="1700">
+{{MAP}}
+{{STEPS}}
+</div>
+<div id="hud" class="hidden"><div class="d1"></div><div class="d2"></div><div class="d3"></div></div>
+<div id="progress"></div>
+<script src="assets/impress.js"></script>
+<script>
+(function () {
+  var CHAPTERS = {{CHAPTERS}};
+  var api = impress();
+  api.init();
+  var root = document.getElementById('impress');
+  var steps = Array.prototype.slice.call(root.querySelectorAll('.step:not(.skip)'));
+  var legs = document.querySelectorAll('.leg');
+  var dots = document.querySelectorAll('.pdot');
+  var hud = document.getElementById('hud');
+  var prog = document.getElementById('progress');
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var WD = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  function swapImages(i) {
+    steps.forEach(function (s, k) {
+      var near = k >= i - 1 && k <= i + 2;
+      s.querySelectorAll('img[data-full]').forEach(function (img) {
+        var want = near ? img.dataset.full : img.dataset.thumb;
+        if (img.getAttribute('src') === want || img.dataset.pending === want) return;
+        if (!near) { delete img.dataset.pending; img.setAttribute('src', want); return; }
+        img.dataset.pending = want;
+        var pre = new Image();
+        pre.src = want;
+        (pre.decode ? pre.decode() : Promise.resolve()).then(function () {
+          if (img.dataset.pending === want) { img.setAttribute('src', want); delete img.dataset.pending; }
+        }, function () {});
+      });
+    });
+  }
+  // Map state is split in two phases so the camera flight never triggers map repaints:
+  //  - move start ("leave"): zoom-dependent sizes, photo dots, legs of earlier chapters (one repaint)
+  //  - arrival ("enter"): the current chapter's legs draw themselves in while the camera is still
+  var mapFor = null;
+  function legOn(l, ch) {
+    var lc = +l.dataset.ch;
+    return l.classList.contains('flight') ? ch === lc : ch >= 0 && lc <= ch;
+  }
+  function prepareMap(st) {
+    if (mapFor === st) return;
+    mapFor = st;
+    document.documentElement.style.setProperty('--z', st.dataset.scale || 1);
+    var ch = +st.dataset.ch, day = +st.dataset.day;
+    legs.forEach(function (l) {
+      var want = legOn(l, ch), isNew = want && !l.classList.contains('on');
+      // legs that belong to the chapter we're flying to wait for arrival so they can be drawn in
+      if (isNew && (+l.dataset.ch === ch || ch >= 99)) return;
+      l.classList.toggle('on', want);
+    });
+    dots.forEach(function (d) { d.classList.toggle('on', day >= 0 && +d.dataset.day <= day); });
+  }
+  function drawIn(l) {
+    if (l.classList.contains('on')) return;
+    l.classList.add('on');
+    if (!l.animate) return;
+    if (l.classList.contains('m-train')) {
+      l.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, easing: 'ease-out' });
+      return;
+    }
+    var len = parseFloat(l.style.getPropertyValue('--len')) || 1;
+    l.style.strokeDasharray = len + ' ' + len;
+    var anim = l.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 2400, easing: 'cubic-bezier(.5, 0, .3, 1)' });
+    anim.onfinish = anim.oncancel = function () { l.style.strokeDasharray = ''; };
+  }
+  function arriveMap(st) {
+    prepareMap(st);
+    var ch = +st.dataset.ch;
+    legs.forEach(function (l) { if (legOn(l, ch)) drawIn(l); });
+  }
+
+  // only keep photo cards near the current slide in the render tree (zoomed-out slides show them all)
+  function cull(i) {
+    var st = steps[i], all = st.classList.contains('title-step') || st.classList.contains('flight-step');
+    steps.forEach(function (s, k) {
+      if (s.classList.contains('card')) s.classList.toggle('culled', !all && Math.abs(k - i) > 8);
+    });
+  }
+
+  document.addEventListener('impress:stepenter', function (e) {
+    var st = e.target, i = steps.indexOf(st);
+    cull(i);
+    arriveMap(st);
+    swapImages(i);
+    var ch = +st.dataset.ch, day = +st.dataset.day;
+    prog.style.width = (100 * i / (steps.length - 1)) + '%';
+    if (st.dataset.date && day < 99) {
+      var dt = new Date(st.dataset.date + 'T12:00:00Z');
+      hud.querySelector('.d1').textContent = 'Day ' + (day + 1) + ' / 28';
+      hud.querySelector('.d2').textContent = st.dataset.place || '';
+      hud.querySelector('.d3').textContent = WD[dt.getUTCDay()] + ' ' + dt.getUTCDate() + ' ' + MON[dt.getUTCMonth()] + (ch >= 0 ? ' · ' + CHAPTERS[ch] : '');
+      hud.classList.toggle('hidden', st.classList.contains('chapter') || st.classList.contains('viz'));
+    } else {
+      hud.classList.add('hidden');
+    }
+    var v = st.querySelector('video');
+    if (v) {
+      if (!v.getAttribute('src')) v.setAttribute('src', v.dataset.src);
+      try { v.currentTime = 0; } catch (err) {}
+      v.muted = false;
+      var p = v.play();
+      if (p && p.catch) p.catch(function () { v.muted = true; v.play().catch(function () {}); });
+    }
+  });
+  document.addEventListener('impress:stepleave', function (e) {
+    var v = e.target.querySelector('video');
+    if (v) v.pause();
+    var next = e.detail && e.detail.next;
+    if (next) {
+      var ni = steps.indexOf(next), ci = steps.indexOf(e.target);
+      // while flying, keep both ends visible: cull around whichever is a zoomed-out slide, else around both
+      steps.forEach(function (s, k) {
+        if (!s.classList.contains('card')) return;
+        var wide = next.classList.contains('title-step') || next.classList.contains('flight-step') ||
+          e.target.classList.contains('title-step') || e.target.classList.contains('flight-step');
+        s.classList.toggle('culled', !wide && Math.abs(k - ni) > 8 && Math.abs(k - ci) > 8);
+      });
+      prepareMap(next);
+      swapImages(ni);
+    }
+  });
+  document.addEventListener('keyup', function (e) {
+    if (e.key === 'o' || e.key === 'O') api.goto('route');
+    if (e.key === 'h' || e.key === 'H') hud.classList.toggle('hidden');
+  });
+})();
+</script>
+</body>
+</html>

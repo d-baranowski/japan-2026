@@ -1,0 +1,4 @@
+node_modules/
+.DS_Store
+# raw EXIF/GPS index of every original photo (incl. home) — stays local
+_build/private/

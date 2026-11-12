@@ -1,0 +1,1070 @@
+{
+ "title": "Japan 2026",
+ "travellers": "Daniel & Marta",
+ "chapters": [
+  {
+   "id": "depart",
+   "jp": "出発",
+   "en": "Kraków → Tokyo",
+   "dates": "5–6 Oct",
+   "sub": "One night above the clouds, landing at Narita in the evening",
+   "items": [
+    {
+     "p": 1,
+     "cap": "Kraków — the journey starts",
+     "place": "Kraków"
+    },
+    {
+     "p": 4,
+     "cap": "Sunrise somewhere over Asia",
+     "place": "In the air"
+    },
+    {
+     "p": 8,
+     "cap": "Narita, 20:30 — Mario says welcome",
+     "place": "Narita"
+    }
+   ]
+  },
+  {
+   "id": "tokyo",
+   "jp": "東京",
+   "en": "Tokyo",
+   "dates": "6–7 Oct",
+   "sub": "Kabukichō neon, Golden Gai, gardens, shrines, Harajuku and teamLab",
+   "path": [
+    [
+     35.72,
+     139.66
+    ],
+    [
+     35.86,
+     139.56
+    ],
+    [
+     36.02,
+     139.47
+    ],
+    [
+     36.17,
+     139.58
+    ],
+    [
+     36.22,
+     139.8
+    ],
+    [
+     36.12,
+     139.98
+    ]
+   ],
+   "items": [
+    {
+     "p": 13,
+     "cap": "First night: Kabukichō neon",
+     "place": "Shinjuku"
+    },
+    {
+     "p": [
+      14,
+      16
+     ],
+     "cap": "Golden Gai — tiny bars, one with a giant nebuta warrior",
+     "place": "Golden Gai"
+    },
+    {
+     "p": 21,
+     "cap": "Breakfast: anpan, the red-bean bun",
+     "place": "Shinjuku"
+    },
+    {
+     "p": 24,
+     "cap": "Shinjuku Gyoen, Docomo Tower peeking over",
+     "place": "Shinjuku Gyoen"
+    },
+    {
+     "p": 34,
+     "cap": "Bald-cypress ‘knees’ poking out of the ground",
+     "place": "Shinjuku Gyoen"
+    },
+    {
+     "p": 40,
+     "cap": "Meiji Jingū — the great wooden torii",
+     "place": "Meiji Jingū"
+    },
+    {
+     "p": [
+      48,
+      55
+     ],
+     "cap": "Bonsai show & the wall of sake barrels",
+     "place": "Meiji Jingū"
+    },
+    {
+     "p": [
+      60,
+      70
+     ],
+     "cap": "Harajuku: Happiness Happening & Sailor Moon latte art",
+     "place": "Harajuku"
+    },
+    {
+     "p": 78,
+     "cap": "Toyosu waterfront after dark",
+     "place": "Toyosu"
+    },
+    {
+     "p": [
+      85,
+      87
+     ],
+     "cap": "teamLab Planets — giant balloons & glowing eggs",
+     "place": "teamLab Planets"
+    },
+    {
+     "v": "VID_20261007_201712",
+     "ss": 12,
+     "t": 14,
+     "cap": "teamLab Planets — wading through light",
+     "place": "teamLab Planets"
+    }
+   ]
+  },
+  {
+   "id": "takao",
+   "jp": "高尾山",
+   "en": "Mt Takao",
+   "dates": "8–9 Oct",
+   "sub": "First hike: Tokyo's own mountain, 599 m — then a night in the arcades",
+   "path": [
+    [
+     35.6,
+     139.2
+    ],
+    [
+     35.5,
+     139.1
+    ],
+    [
+     35.4,
+     139.02
+    ],
+    [
+     35.33,
+     139.18
+    ],
+    [
+     35.36,
+     139.36
+    ],
+    [
+     35.5,
+     139.47
+    ]
+   ],
+   "items": [
+    {
+     "p": 97,
+     "cap": "Views over the Kantō plain",
+     "place": "Mt Takao"
+    },
+    {
+     "p": [
+      104,
+      106
+     ],
+     "cap": "Yakuō-in temple and its tengu guardian",
+     "place": "Yakuō-in"
+    },
+    {
+     "p": 102,
+     "cap": "Moss, cedars and red-bibbed jizō",
+     "place": "Mt Takao"
+    },
+    {
+     "p": 111,
+     "cap": "Root-staircase trails through the cedars",
+     "place": "Mt Takao"
+    },
+    {
+     "p": 119,
+     "cap": "Train home. Zero energy left.",
+     "place": "Chūō Line"
+    },
+    {
+     "p": [
+      130,
+      135
+     ],
+     "cap": "Next night, Akihabara: Mario Kart podium — Marta 1st, Daniel 2nd",
+     "place": "Akihabara"
+    }
+   ]
+  },
+  {
+   "id": "nikko",
+   "jp": "日光",
+   "en": "Nikkō",
+   "dates": "10 Oct",
+   "sub": "A typhoon-delayed train, a 97 m waterfall and gold-leaf shrines",
+   "path": [
+    [
+     36.8,
+     139.48
+    ],
+    [
+     36.88,
+     139.33
+    ],
+    [
+     36.84,
+     139.17
+    ],
+    [
+     36.7,
+     139.13
+    ],
+    [
+     36.56,
+     139.22
+    ],
+    [
+     36.5,
+     139.38
+    ],
+    [
+     36.55,
+     139.55
+    ]
+   ],
+   "items": [
+    {
+     "p": 144,
+     "cap": "Kegon Falls — 97 m straight down",
+     "place": "Kegon Falls"
+    },
+    {
+     "v": "VID_20261010_104202",
+     "ss": 0,
+     "t": 5,
+     "cap": "Kegon Falls, in motion",
+     "place": "Kegon Falls"
+    },
+    {
+     "p": [
+      147,
+      151
+     ],
+     "cap": "Lake Chūzenji, 1,269 m up",
+     "place": "Lake Chūzenji"
+    },
+    {
+     "p": [
+      159,
+      167
+     ],
+     "cap": "Tōshō-gū: five-storey pagoda & gilded gates",
+     "place": "Tōshō-gū"
+    },
+    {
+     "p": 173,
+     "cap": "Lunch: a tray of tiny dishes",
+     "place": "Nikkō"
+    },
+    {
+     "p": [
+      180,
+      181
+     ],
+     "cap": "Kanmangafuchi — moss-covered jizō in red caps",
+     "place": "Kanmangafuchi"
+    },
+    {
+     "p": 191,
+     "cap": "Shinkyō, the sacred red bridge",
+     "place": "Shinkyō"
+    },
+    {
+     "p": 203,
+     "cap": "Back in Tokyo: okonomiyaki, DIY",
+     "place": "Tokyo"
+    }
+   ]
+  },
+  {
+   "id": "kofu",
+   "jp": "昇仙峡",
+   "en": "Kōfu & Shōsenkyō",
+   "dates": "12 Oct",
+   "sub": "Sports Day holiday: a granite gorge, a ropeway and the first glimpse of Fuji",
+   "path": [
+    [
+     35.78,
+     138.62
+    ],
+    [
+     35.9,
+     138.7
+    ],
+    [
+     36.0,
+     138.62
+    ],
+    [
+     36.02,
+     138.47
+    ]
+   ],
+   "items": [
+    {
+     "p": 209,
+     "cap": "First glimpse of Fuji from the Shōsenkyō ropeway",
+     "place": "Shōsenkyō"
+    },
+    {
+     "p": [
+      210,
+      215
+     ],
+     "cap": "Takeda Shingen cut-out & very hungry koi",
+     "place": "Shōsenkyō"
+    },
+    {
+     "p": 221,
+     "cap": "Shōsenkyō gorge",
+     "place": "Shōsenkyō"
+    },
+    {
+     "p": 228,
+     "cap": "Kōfu station at night: Takeda Shingen, in pink",
+     "place": "Kōfu"
+    }
+   ]
+  },
+  {
+   "id": "alps",
+   "jp": "南アルプス",
+   "en": "Southern Alps",
+   "dates": "13–18 Oct",
+   "sub": "Six days hut to hut over Hōō Sanzan and Shirane Sanzan — up to 3,193 m",
+   "alps": true,
+   "path": [
+    [
+     35.55,
+     138.4
+    ],
+    [
+     35.66,
+     138.36
+    ],
+    [
+     35.76,
+     138.33
+    ],
+    [
+     35.8,
+     138.22
+    ],
+    [
+     35.72,
+     138.12
+    ],
+    [
+     35.6,
+     138.13
+    ],
+    [
+     35.5,
+     138.22
+    ],
+    [
+     35.45,
+     138.1
+    ],
+    [
+     35.55,
+     137.98
+    ],
+    [
+     35.72,
+     137.95
+    ],
+    [
+     35.86,
+     138.02
+    ]
+   ],
+   "items": [
+    {
+     "p": 234,
+     "cap": "Day 1 — Yashajin Pass. Packs: heavy.",
+     "place": "Yashajin Pass",
+     "alt": 1770
+    },
+    {
+     "p": 244,
+     "cap": "A sika deer in the birch forest",
+     "place": "Hōō Sanzan trail",
+     "alt": 2200
+    },
+    {
+     "p": [
+      251,
+      254
+     ],
+     "cap": "Night 1 — tent at Minami-Omuro hut, stove dinner",
+     "place": "Minami-Omuro hut",
+     "alt": 2420
+    },
+    {
+     "p": 258,
+     "cap": "Day 2 — wind and cloud on the ridge",
+     "place": "Hōō Sanzan",
+     "alt": 2750
+    },
+    {
+     "p": 265,
+     "cap": "Night 2 — Hōō hut, everyone drying out",
+     "place": "Hōō hut",
+     "alt": 2400
+    },
+    {
+     "p": 275,
+     "cap": "Day 3 — sunrise over a sea of clouds",
+     "place": "Hōō Sanzan",
+     "alt": 2600
+    },
+    {
+     "p": 279,
+     "cap": "The obelisk of Jizō-dake",
+     "place": "Jizō-dake",
+     "alt": 2764
+    },
+    {
+     "p": 295,
+     "cap": "Takamine, 2,779 m",
+     "place": "Takamine",
+     "alt": 2779
+    },
+    {
+     "p": 307,
+     "cap": "Night 3 — Shirane-Oike hut",
+     "place": "Shirane-Oike hut",
+     "alt": 2230
+    },
+    {
+     "p": 312,
+     "cap": "Day 4 — Fuji floating on the horizon",
+     "place": "Kitadake",
+     "alt": 2700
+    },
+    {
+     "p": 318,
+     "cap": "Kata-no-koya, 3,011 m",
+     "place": "Kitadake",
+     "alt": 3011
+    },
+    {
+     "p": [
+      327,
+      324
+     ],
+     "cap": "Kitadake summit — 3,193 m, Japan's 2nd-highest peak",
+     "place": "Kitadake 北岳",
+     "alt": 3193
+    },
+    {
+     "p": 334,
+     "cap": "Day 5 — sunrise behind Fuji",
+     "place": "Kitadake-sansō",
+     "alt": 2900
+    },
+    {
+     "p": 337,
+     "cap": "Ainodake, 3,190 m — Fuji on the right",
+     "place": "Ainodake 間ノ岳",
+     "alt": 3190
+    },
+    {
+     "p": 345,
+     "cap": "Night 5 — Ryōmata hut",
+     "place": "Ryōmata hut",
+     "alt": 2000
+    },
+    {
+     "p": 349,
+     "cap": "Day 6 — 5:25 a.m., headlamps on",
+     "place": "Ryōmata",
+     "alt": 1950
+    },
+    {
+     "p": 357,
+     "cap": "The bus out of the mountains",
+     "place": "Minami Alps forest road",
+     "alt": 1300
+    },
+    {
+     "p": [
+      360,
+      361
+     ],
+     "cap": "Senryūsō: yukata, a real bed, a real dinner",
+     "place": "Senryūsō, Ina",
+     "alt": 900
+    }
+   ]
+  },
+  {
+   "id": "kyoto1",
+   "jp": "京都",
+   "en": "Kyoto",
+   "dates": "19 Oct",
+   "sub": "Out of the mountains by bus, bus, bus and train — then Gion at dusk",
+   "path": [
+    [
+     34.97,
+     135.86
+    ],
+    [
+     34.9,
+     135.98
+    ],
+    [
+     34.86,
+     136.12
+    ],
+    [
+     34.9,
+     136.26
+    ]
+   ],
+   "items": [
+    {
+     "p": [
+      366,
+      367
+     ],
+     "cap": "Yasaka-jinja lanterns",
+     "place": "Gion"
+    },
+    {
+     "p": 365,
+     "cap": "A heron fishing the Shirakawa canal",
+     "place": "Shirakawa"
+    },
+    {
+     "p": 372,
+     "cap": "Tanuki, assembled",
+     "place": "Gion"
+    },
+    {
+     "p": 374,
+     "cap": "Kennin-ji at dusk",
+     "place": "Kennin-ji"
+    }
+   ]
+  },
+  {
+   "id": "saba",
+   "jp": "鯖街道",
+   "en": "Saba Kaidō — the Mackerel Road",
+   "dates": "20–21 Oct",
+   "sub": "Two rented bikes, one tent, and the old road that carried salted mackerel 18 ri to Kyoto",
+   "bike": true,
+   "path": [
+    [
+     35.06,
+     135.86
+    ],
+    [
+     35.14,
+     135.93
+    ],
+    [
+     35.24,
+     136.0
+    ],
+    [
+     35.33,
+     136.02
+    ],
+    [
+     35.42,
+     136.04
+    ],
+    [
+     35.52,
+     136.0
+    ],
+    [
+     35.6,
+     135.92
+    ],
+    [
+     35.63,
+     135.8
+    ],
+    [
+     35.59,
+     135.72
+    ]
+   ],
+   "items": [
+    {
+     "p": 377,
+     "cap": "Day 1 — loaded bikes in Ōhara",
+     "place": "Ōhara"
+    },
+    {
+     "p": [
+      386,
+      403
+     ],
+     "cap": "Sanzen-in: moss gardens & warabe-jizō",
+     "place": "Sanzen-in"
+    },
+    {
+     "p": 410,
+     "cap": "Climbing north out of Kyoto",
+     "place": "Route 367"
+    },
+    {
+     "p": 416,
+     "cap": "Kutsuki campsite. Bathroom roommate.",
+     "place": "Kutsuki"
+    },
+    {
+     "p": 420,
+     "cap": "Day 2 — misty morning in Kutsuki",
+     "place": "Kutsuki"
+    },
+    {
+     "p": 422,
+     "cap": "Rice fields along the Saba Kaidō",
+     "place": "Saba Kaidō"
+    },
+    {
+     "p": 430,
+     "cap": "Kumagawa-juku, a post town on the mackerel road",
+     "place": "Kumagawa-juku"
+    },
+    {
+     "p": 435,
+     "cap": "First sight of the Sea of Japan",
+     "place": "Wakasa"
+    },
+    {
+     "p": 438,
+     "cap": "Feet in the Sea of Japan",
+     "place": "Wakasa"
+    },
+    {
+     "p": [
+      452,
+      456
+     ],
+     "cap": "Obama: Claude on the magazine rack, kushikatsu for dinner",
+     "place": "Obama"
+    },
+    {
+     "p": 454,
+     "cap": "Obama by night, after the rain",
+     "place": "Obama"
+    }
+   ]
+  },
+  {
+   "id": "wakasa",
+   "jp": "若狭湾",
+   "en": "Wakasa Bay",
+   "dates": "22 Oct",
+   "sub": "Cliffs, islands and lighthouses along the coast road to Wakasa Wada",
+   "bike": true,
+   "path": [
+    [
+     35.62,
+     135.62
+    ],
+    [
+     35.66,
+     135.5
+    ],
+    [
+     35.61,
+     135.38
+    ],
+    [
+     35.52,
+     135.36
+    ],
+    [
+     35.45,
+     135.44
+    ]
+   ],
+   "items": [
+    {
+     "p": 459,
+     "cap": "Obama's mermaid statues",
+     "place": "Obama"
+    },
+    {
+     "p": 463,
+     "cap": "Cliff road along Wakasa Bay",
+     "place": "Wakasa Bay"
+    },
+    {
+     "p": 467,
+     "cap": "Bridges and bays",
+     "place": "Wakasa Bay"
+    },
+    {
+     "p": [
+      472,
+      475
+     ],
+     "cap": "A footbridge to an island & a candy-striped lighthouse",
+     "place": "Wakasa Bay"
+    },
+    {
+     "p": 488,
+     "cap": "Rocky islets off the beach",
+     "place": "Takahama"
+    },
+    {
+     "p": 494,
+     "cap": "Sunset at Wakasa Wada beach",
+     "place": "Wakasa Wada"
+    }
+   ]
+  },
+  {
+   "id": "miyama",
+   "jp": "美山",
+   "en": "Miyama",
+   "dates": "23 Oct",
+   "sub": "Tunnels through the hills to a village of thatched roofs",
+   "bike": true,
+   "path": [
+    [
+     35.38,
+     135.4
+    ],
+    [
+     35.3,
+     135.38
+    ],
+    [
+     35.22,
+     135.43
+    ],
+    [
+     35.18,
+     135.55
+    ]
+   ],
+   "items": [
+    {
+     "p": 498,
+     "cap": "Day 4 — tunnels and galleries inland",
+     "place": "Ōi"
+    },
+    {
+     "p": 502,
+     "cap": "One more tunnel…",
+     "place": "Nantan"
+    },
+    {
+     "p": [
+      511,
+      512
+     ],
+     "cap": "Miyama Kayabuki-no-Sato — nearly 40 thatched roofs",
+     "place": "Miyama"
+    },
+    {
+     "p": 515,
+     "cap": "Thatch, up close",
+     "place": "Miyama"
+    },
+    {
+     "p": 519,
+     "cap": "Autumn colours on the way out",
+     "place": "Miyama"
+    }
+   ]
+  },
+  {
+   "id": "kameoka",
+   "jp": "亀岡祭",
+   "en": "Kameoka Matsuri",
+   "dates": "24 Oct",
+   "sub": "Rain in the valleys, a last campsite, and a festival full of lantern floats",
+   "bike": true,
+   "path": [
+    [
+     35.1,
+     135.45
+    ],
+    [
+     35.02,
+     135.4
+    ],
+    [
+     34.93,
+     135.44
+    ],
+    [
+     34.88,
+     135.55
+    ],
+    [
+     34.9,
+     135.66
+    ]
+   ],
+   "items": [
+    {
+     "p": 522,
+     "cap": "Day 5 — porridge on the stove",
+     "place": "Miyama"
+    },
+    {
+     "p": 525,
+     "cap": "Rain clouds in the valleys",
+     "place": "Keihoku"
+    },
+    {
+     "p": 526,
+     "cap": "Warm lunch, dry socks",
+     "place": "Keihoku"
+    },
+    {
+     "p": 531,
+     "cap": "Last campsite: cabins in the cedars",
+     "place": "Kameoka"
+    },
+    {
+     "p": [
+      534,
+      537
+     ],
+     "cap": "Kameoka Matsuri — lantern-lit festival floats",
+     "place": "Kameoka"
+    },
+    {
+     "v": "VID_20261024_183149",
+     "ss": 5,
+     "t": 13,
+     "cap": "Kameoka Matsuri, live",
+     "place": "Kameoka"
+    }
+   ]
+  },
+  {
+   "id": "kyoto2",
+   "jp": "京都",
+   "en": "Kyoto, again",
+   "dates": "25–26 Oct",
+   "sub": "Bikes back by train — then torii, yōkai, beer and a castle in the rain",
+   "path": [
+    [
+     34.9,
+     135.82
+    ],
+    [
+     34.8,
+     135.9
+    ],
+    [
+     34.7,
+     135.88
+    ],
+    [
+     34.62,
+     135.76
+    ],
+    [
+     34.58,
+     135.6
+    ]
+   ],
+   "items": [
+    {
+     "p": 543,
+     "cap": "Fushimi Inari — the torii tunnel",
+     "place": "Fushimi Inari"
+    },
+    {
+     "p": [
+      548,
+      550
+     ],
+     "cap": "Fox guardians & the Rōmon gate",
+     "place": "Fushimi Inari"
+    },
+    {
+     "p": [
+      555,
+      558
+     ],
+     "cap": "Tōei Kyoto Studio Park — yōkai night & an Eva Unit-01",
+     "place": "Uzumasa"
+    },
+    {
+     "v": "VID_20261025_192955",
+     "ss": 98,
+     "t": 13,
+     "cap": "The yōkai parade",
+     "place": "Uzumasa"
+    },
+    {
+     "p": 565,
+     "cap": "Kanpai!",
+     "place": "Kiyamachi"
+    },
+    {
+     "p": 571,
+     "cap": "Totoro, obviously",
+     "place": "Kyoto"
+    },
+    {
+     "p": [
+      579,
+      581
+     ],
+     "cap": "Nijō Castle in the rain",
+     "place": "Nijō Castle"
+    }
+   ]
+  },
+  {
+   "id": "boso",
+   "jp": "房総",
+   "en": "Bōsō Peninsula",
+   "dates": "27–30 Oct",
+   "sub": "With Typhoon Champi around, the island plan became an old house on Tokyo Bay",
+   "path": [
+    [
+     35.6,
+     140.02
+    ],
+    [
+     35.46,
+     140.1
+    ],
+    [
+     35.3,
+     140.1
+    ],
+    [
+     35.14,
+     140.06
+    ],
+    [
+     35.04,
+     139.92
+    ],
+    [
+     35.02,
+     139.74
+    ],
+    [
+     35.12,
+     139.62
+    ]
+   ],
+   "items": [
+    {
+     "p": 583,
+     "cap": "Back in Tokyo — Sensō-ji, Asakusa",
+     "place": "Asakusa"
+    },
+    {
+     "p": 587,
+     "cap": "Train down the Bōsō Peninsula",
+     "place": "Uchibō Line"
+    },
+    {
+     "p": [
+      588,
+      589
+     ],
+     "cap": "An old Japanese house, all to ourselves",
+     "place": "Futtsu"
+    },
+    {
+     "p": 591,
+     "cap": "Shōji, sunset, armchair",
+     "place": "Futtsu"
+    },
+    {
+     "p": 596,
+     "cap": "Sunset over Tokyo Bay",
+     "place": "Futtsu"
+    },
+    {
+     "p": [
+      602,
+      605
+     ],
+     "cap": "Tokyo Wan Kannon — and you can climb up inside her",
+     "place": "Tokyo Wan Kannon"
+    },
+    {
+     "p": 601,
+     "cap": "Doing nothing, professionally",
+     "place": "Futtsu"
+    },
+    {
+     "p": 613,
+     "cap": "Last sunset from the house",
+     "place": "Futtsu"
+    }
+   ]
+  },
+  {
+   "id": "home",
+   "jp": "さようなら",
+   "en": "Sayōnara",
+   "dates": "31 Oct – 1 Nov",
+   "sub": "A last walk through Tokyo, an overnight flight, and Warsaw at 06:15",
+   "path": [
+    [
+     35.8,
+     140.12
+    ],
+    [
+     35.92,
+     140.3
+    ],
+    [
+     35.98,
+     140.55
+    ]
+   ],
+   "items": [
+    {
+     "p": 618,
+     "cap": "Marunouchi towers, last afternoon",
+     "place": "Marunouchi"
+    },
+    {
+     "p": 620,
+     "cap": "Last selfie in Tokyo",
+     "place": "Tokyo"
+    },
+    {
+     "p": 621,
+     "cap": "One last anime wall at the airport",
+     "place": "Airport"
+    },
+    {
+     "p": 623,
+     "cap": "Warsaw, 06:15. Home.",
+     "place": "Warsaw"
+    }
+   ]
+  }
+ ]
+}
