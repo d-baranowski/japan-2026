@@ -15,3 +15,15 @@ node build.mjs ..
 ```
 
 Captions and chapters are in `_build/data.json`. Map, layout and charts are in `_build/build.mjs`.
+The map is drawn into `<canvas>` images by the script in `_build/template.html`.
+
+Bike days: `node bike.mjs` routes each day between the photo locations and samples terrain heights
+(needs network; writes `bike.json`, which is committed, so the normal build stays offline).
+
+## Performance check
+
+```sh
+cd _build/perf
+node run.mjs mylabel        # walks every slide in real Chrome, records frames, blank tiles, GPU memory
+node summary.cjs mylabel 10
+```

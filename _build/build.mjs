@@ -2,19 +2,20 @@
 // usage: node build.mjs <outDir>
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { feature } from 'topojson-client';
 
 const OUT = process.argv[2];
-const HERE = path.dirname(new URL(import.meta.url).pathname);
+const HERE = path.dirname(fileURLToPath(import.meta.url));
 const data = JSON.parse(fs.readFileSync(path.join(HERE, 'data.json'), 'utf8'));
 const media = JSON.parse(fs.readFileSync(path.join(HERE, 'media.json'), 'utf8'));
+const BIKE = JSON.parse(fs.readFileSync(path.join(HERE, 'bike.json'), 'utf8'));   // from bike.mjs
 
 // ---------------------------------------------------------------- projection
 const K = 20000, KY = K * 1.228, LON0 = 138.0, LAT0 = 35.8;
 const P = (lat, lon) => [(lon - LON0) * K, (LAT0 - lat) * KY];
 const BBOX = { lon0: 134.6, lon1: 141.4, lat0: 33.8, lat1: 37.6 };
 const [VX0, VY0] = P(BBOX.lat1, BBOX.lon0), [VX1, VY1] = P(BBOX.lat0, BBOX.lon1);
-const MAPSCALE = 10;
 const r0 = (v) => Math.round(v);
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const fmt = (n) => n.toLocaleString('en-US');
@@ -57,26 +58,25 @@ const simplify = (pts, tol) => {
   return pts.filter((_, i) => keep[i]);
 };
 let ptsIn = 0, ptsOut = 0;
-const ringPath = (ring) => {
+const ringPts = (ring) => {
   const xy = ring.map(([lon, lat]) => P(lat, lon));
   // closed ring: split at the point farthest from the start so both halves are open polylines
   let far = 0, fd = -1;
   xy.forEach((p, i) => { const d = Math.hypot(p[0] - xy[0][0], p[1] - xy[0][1]); if (d > fd) { fd = d; far = i; } });
   const s = (far > 0 ? [...simplify(xy.slice(0, far + 1), 18), ...simplify(xy.slice(far), 18).slice(1)] : xy).map((p) => p.map(r0));
   ptsIn += xy.length; ptsOut += s.length;
-  if (s.length < 3) return '';
-  return 'M' + s.map((p) => p.join(' ')).join('L') + 'Z';
+  return s.length < 3 ? null : s.flat();
 };
 const polysOf = (geom) => geom.type === 'Polygon' ? [geom.coordinates] : geom.type === 'MultiPolygon' ? geom.coordinates : [];
 const topo = JSON.parse(fs.readFileSync(path.join(HERE, 'node_modules/world-atlas/countries-10m.json'), 'utf8'));
 const japan = feature(topo, topo.objects.countries).features.find((f) => f.id === '392');
-let landD = '';
-for (const poly of polysOf(japan.geometry)) for (const ring of poly) if (inView(ring)) landD += ringPath(ring);
+const land = [];
+for (const poly of polysOf(japan.geometry)) for (const ring of poly) if (inView(ring)) { const r = ringPts(ring); if (r) land.push(r); }
 const lakes = JSON.parse(fs.readFileSync(path.join(HERE, 'ne_10m_lakes.geojson'), 'utf8'));
-let lakeD = '';
+const lakeRings = [];
 for (const f of lakes.features) for (const poly of polysOf(f.geometry)) {
   if (!poly[0].every(([lon, lat]) => lon > BBOX.lon0 && lon < BBOX.lon1 && lat > BBOX.lat0 && lat < BBOX.lat1)) continue;
-  for (const ring of poly) lakeD += ringPath(ring);
+  for (const ring of poly) { const r = ringPts(ring); if (r) lakeRings.push(r); }
 }
 
 // ---------------------------------------------------------------- route legs
@@ -93,10 +93,8 @@ const LEGS = [
   ['alps', 'foot', [[35.635, 138.345], [35.6384, 138.3364], [35.665, 138.320], [35.6822, 138.3166], [35.690, 138.305], [35.697, 138.301], [35.706, 138.297], [35.7111, 138.2984], [35.7106, 138.2963], [35.7098, 138.2878], [35.6939, 138.2635], [35.6925, 138.2594], [35.676, 138.261], [35.686, 138.2524], [35.6843, 138.2434], [35.6827, 138.2398], [35.6745, 138.2386], [35.665, 138.235], [35.6615, 138.2299], [35.646, 138.228], [35.6615, 138.2299], [35.6561, 138.2082], [35.6708, 138.2013], [35.6748, 138.2032], [35.705, 138.215], [35.735, 138.233]]],
   ['alps', 'train', [[35.735, 138.233], [35.785, 138.125]]],
   ['kyoto1', 'train', [[35.785, 138.125], [35.83, 137.95], [35.50, 137.80], [35.17, 136.88], [34.985, 135.758], [35.004, 135.778]]],
-  ['saba', 'bike', [[35.004, 135.778], [35.05, 135.80], [35.12, 135.835], [35.20, 135.86], [35.33, 135.905], [35.454, 135.918], [35.50, 135.85], [35.52, 135.80], [35.495, 135.746]]],
-  ['wakasa', 'bike', [[35.495, 135.746], [35.53, 135.67], [35.52, 135.62], [35.49, 135.57]]],
-  ['miyama', 'bike', [[35.49, 135.57], [35.44, 135.56], [35.38, 135.59], [35.315, 135.62]]],
-  ['kameoka', 'bike', [[35.315, 135.62], [35.22, 135.57], [35.10, 135.55], [35.01, 135.58]]],
+  // bike days, routed along real roads (bike.mjs): days 1–2 Saba Kaidō, 3 Wakasa Bay, 4 Miyama, 5 Kameoka
+  ...[['saba', 0], ['saba', 1], ['wakasa', 2], ['miyama', 3], ['kameoka', 4]].map(([ch, d]) => [ch, 'bike', BIKE[d].line]),
   ['kyoto2', 'train', [[35.01, 135.58], [34.985, 135.758], [34.967, 135.773], [35.016, 135.707], [35.014, 135.748]]],
   ['boso', 'train', [[35.014, 135.748], [34.985, 135.758], [35.17, 136.88], [34.97, 138.39], [35.25, 139.15], [35.68, 139.767], [35.715, 139.797]]],
   ['boso', 'train', [[35.715, 139.797], [35.68, 139.767], [35.61, 140.11], [35.38, 139.92], [35.25, 139.87]]],
@@ -110,22 +108,19 @@ const hav = ([la1, lo1], [la2, lo2]) => {
 };
 const KM = { train: 0, foot: 0, bike: 0 };
 for (const [, m, pts] of LEGS) for (let i = 1; i < pts.length; i++) KM[m] += hav(pts[i - 1], pts[i]);
+KM.bike = BIKE.reduce((a, d) => a + d.km, 0);   // road distance, not point-to-point
 const KRK = [50.06, 19.94], WAW = [52.17, 20.97], NRT = [35.77, 140.39], TYO = [35.68, 139.77];
 const FLOWN = hav(KRK, NRT) + hav(TYO, WAW);
 
 const polyLen = (pts) => { let L = 0; for (let i = 1; i < pts.length; i++) L += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); return L; };
-let legsSvg = '', ghostSvg = '';
-LEGS.forEach(([ch, m, pts]) => {
-  const xy = pts.map(([la, lo]) => P(la, lo).map(r0));
-  const d = 'M' + xy.map((p) => p.join(' ')).join('L');
-  const len = Math.ceil(polyLen(xy));
-  ghostSvg += `<path class="ghost m-${m}" d="${d}"/>`;
-  legsSvg += `<path class="leg m-${m}" data-ch="${chIdx(ch)}" style="--len:${len}" d="${d}"/>`;
+const legsData = LEGS.map(([ch, m, pts]) => {
+  const xy = simplify(pts.map(([la, lo]) => P(la, lo)), 6).map((p) => p.map(r0));
+  return { ch: chIdx(ch), m, p: xy.flat(), len: Math.ceil(polyLen(xy)) };
 });
 
-// photo GPS dots
-const dots = media.fixes.filter((f) => f.lat > BBOX.lat0 && f.lat < BBOX.lat1 && f.lon > BBOX.lon0 && f.lon < BBOX.lon1)
-  .map((f) => { const [x, y] = P(f.lat, f.lon).map(r0); return `<circle class="pdot" data-day="${dayIdx(f.dt)}" cx="${x}" cy="${y}"/>`; }).join('');
+// photo GPS dots: flat [x, y, day, ...]
+const dotsData = media.fixes.filter((f) => f.lat > BBOX.lat0 && f.lat < BBOX.lat1 && f.lon > BBOX.lon0 && f.lon < BBOX.lon1)
+  .flatMap((f) => [...P(f.lat, f.lon).map(r0), dayIdx(f.dt)]);
 
 // labels
 const LABELS = [
@@ -138,40 +133,28 @@ const LABELS = [
 const WATER = [['Sea of Japan', '日本海', 36.25, 135.75], ['Pacific Ocean', '太平洋', 34.05, 138.2], ['Tokyo Bay', '東京湾', 35.47, 139.87],
   ['Lake Biwa', '琵琶湖', 35.27, 136.10], ['Wakasa Bay', '若狭湾', 35.70, 135.95], ['Sagami Bay', '相模湾', 35.16, 139.33], ['Suruga Bay', '駿河湾', 34.85, 138.62]];
 const PEAKS = [['Fuji', '富士山', 3776, 35.3606, 138.7274], ['Kitadake', '北岳', 3193, 35.6745, 138.2386]];
-let labelsSvg = '';
-for (const [en, jp, la, lo, k] of LABELS) {
-  const [x, y] = P(la, lo).map(r0);
-  labelsSvg += `<g class="place ${k}" transform="translate(${x} ${y})"><circle class="pd"/><text class="pl">${esc(en)}<tspan class="jp"> ${jp}</tspan></text></g>`;
-}
-for (const [en, jp, la, lo] of WATER) {
-  const [x, y] = P(la, lo).map(r0);
-  labelsSvg += `<text class="water" x="${x}" y="${y}">${esc(en)}<tspan class="jp" dx="0.4em">${jp}</tspan></text>`;
-}
-for (const [en, jp, h, la, lo] of PEAKS) {
-  const [x, y] = P(la, lo).map(r0);
-  labelsSvg += `<g class="peak${en === 'Kitadake' ? ' left' : ''}" transform="translate(${x} ${y})"><text class="tri" text-anchor="middle" dy=".35em">▲</text><text class="pk" dy=".35em">${esc(en)} ${jp}<tspan class="ph" dx="0.4em">${fmt(h)} m</tspan></text></g>`;
-}
-let grat = '';
-for (let lo = 135; lo <= 141; lo++) { const [x] = P(35, lo); grat += `<line class="grat" x1="${r0(x)}" y1="${r0(VY0)}" x2="${r0(x)}" y2="${r0(VY1)}"/><text class="gl" x="${r0(x)}" y="${r0(VY1)}">${lo}°E</text>`; }
-for (let la = 34; la <= 37; la++) { const [, y] = P(la, 138); grat += `<line class="grat" x1="${r0(VX0)}" y1="${r0(y)}" x2="${r0(VX1)}" y2="${r0(y)}"/><text class="gl" x="${r0(VX0)}" y="${r0(y)}">${la}°N</text>`; }
-
-const mapW = VX1 - VX0, mapH = VY1 - VY0;
-const mapSvg = `<svg class="mapsvg" width="${r0(mapW / MAPSCALE)}" height="${r0(mapH / MAPSCALE)}" viewBox="${r0(VX0)} ${r0(VY0)} ${r0(mapW)} ${r0(mapH)}">
-<g>${grat}</g><path class="land" d="${landD}"/><path class="lake" d="${lakeD}"/>
-<g class="ghosts">${ghostSvg}</g><g class="legs">${legsSvg}</g><g class="dots">${dots}</g><g class="labels">${labelsSvg}</g></svg>`;
+const placesData = LABELS.map(([en, jp, la, lo, k]) => [en, jp, ...P(la, lo).map(r0), k]);
+const waterData = WATER.map(([en, jp, la, lo]) => [en, jp, ...P(la, lo).map(r0)]);
+const peaksData = PEAKS.map(([en, jp, h, la, lo]) => [en, jp, fmt(h), ...P(la, lo).map(r0), en === 'Kitadake' ? 1 : 0]);
+const gratData = [], gratLabels = [];
+for (let lo = 135; lo <= 141; lo++) { const [x] = P(35, lo); gratData.push([r0(x), r0(VY0), r0(x), r0(VY1)]); gratLabels.push([`${lo}°E`, r0(x), r0(VY1)]); }
+for (let la = 34; la <= 37; la++) { const [, y] = P(la, 138); gratData.push([r0(VX0), r0(y), r0(VX1), r0(y)]); gratLabels.push([`${la}°N`, r0(VX0), r0(y)]); }
 
 // flight arcs (world step)
 const KR = [-150000, -60000], WA = [-146000, -66000];
 const NR = P(...NRT), TY = P(...TYO);
 const arc = (a, b, lift) => { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2 - lift; return { d: `M${r0(a[0])} ${r0(a[1])}Q${r0(mx)} ${r0(my)} ${r0(b[0])} ${r0(b[1])}`, mid: [0.25 * a[0] + 0.5 * mx + 0.25 * b[0], 0.25 * a[1] + 0.5 * my + 0.25 * b[1]] }; };
 const arcOut = arc(KR, NR, 52000), arcBack = arc(TY, WA, -16000);
-const WX0 = -175000, WY0 = -115000, WX1 = 70000, WY1 = 30000, WSCALE = 25;
-const worldSvg = `<svg class="worldsvg" width="${(WX1 - WX0) / WSCALE}" height="${(WY1 - WY0) / WSCALE}" viewBox="${WX0} ${WY0} ${WX1 - WX0} ${WY1 - WY0}">
-<path class="flight leg m-flight" data-ch="${chIdx('depart')}" style="--len:${r0(polyLen([KR, arcOut.mid, NR]) * 1.15)}" d="${arcOut.d}"/>
-<path class="flight leg m-flight" data-ch="${chIdx('home')}" style="--len:${r0(polyLen([TY, arcBack.mid, WA]) * 1.15)}" d="${arcBack.d}"/>
-<g class="place city" transform="translate(${KR[0]} ${KR[1]})"><circle class="pd"/><text class="pl">Kraków</text></g>
-<g class="place city" transform="translate(${WA[0]} ${WA[1]})"><circle class="pd"/><text class="pl">Warsaw</text></g>
-</svg>`;
+// Everything the canvas map renderer needs, in impress canvas coordinates (see template.html).
+const MAPDATA = {
+  land, lakes: lakeRings, grat: gratData, gratL: gratLabels, legs: legsData, dots: dotsData,
+  places: placesData, water: waterData, peaks: peaksData,
+  flights: [
+    { ch: chIdx('depart'), q: [KR, [2 * arcOut.mid[0] - (KR[0] + NR[0]) / 2, 2 * arcOut.mid[1] - (KR[1] + NR[1]) / 2], NR].flat().map(r0), len: r0(polyLen([KR, arcOut.mid, NR]) * 1.15) },
+    { ch: chIdx('home'), q: [TY, [2 * arcBack.mid[0] - (TY[0] + WA[0]) / 2, 2 * arcBack.mid[1] - (TY[1] + WA[1]) / 2], WA].flat().map(r0), len: r0(polyLen([TY, arcBack.mid, WA]) * 1.15) },
+  ],
+  cities: [['Kraków', ...KR.map(r0)], ['Warsaw', ...WA.map(r0)]],
+};
 
 // ---------------------------------------------------------------- step helpers
 const steps = [];
@@ -262,8 +245,15 @@ for (const ch of data.chapters) {
   const zig = ch.alps ? 700 : 760;
   const { pts, L } = placeAlong(ch.path, items.length, zig);
   layoutReport.push(`${ch.id}: ${items.length} items, path ${Math.round(L)}px, spacing ${Math.round(L / Math.max(1, items.length - 1))}`);
+  let lastDay = null;
   items.forEach((it, k) => {
     const c = cardHtml(it, ch);
+    const bd = ch.bike && BIKE.findIndex((d) => d.date === isoDate(c.dt));
+    if (ch.bike && bd >= 0 && bd !== lastDay) {
+      // placed next to this card later, once every card's position is known
+      add({ id: `viz-bike-${bd + 1}`, cls: 'step viz', x: pts[k][0], y: pts[k][1], scale: 1.6, ch: ci, dt: c.dt, place: `${BIKE[bd].from} → ${BIKE[bd].to}`, html: `__BIKE${bd}__`, panel: [1800, 990], near: pts[k] });
+      lastDay = bd;
+    }
     const s = { id: `c-${ch.id}-${k}`, cls: 'step card', x: pts[k][0], y: pts[k][1], scale: 1, rot: Math.round((seeded(k + ci * 31) - 0.5) * 14), ch: ci, dt: c.dt, place: it.place, html: c.html, w: c.w, h: c.h };
     if (it.v) s.cls += ' video-step';
     if (ch.alps) s.rot = Math.round((seeded(k) - 0.5) * 10);
@@ -284,6 +274,24 @@ add({ id: 'viz-alt', cls: 'step viz', x: NX, y: NY, scale: 1.6, ch: 99, day: 99,
 add({ id: 'viz-photos', cls: 'step viz', x: NX + 3600, y: NY + 400, scale: 1.6, ch: 99, day: 99, place: 'By the numbers', html: '__PHOTOS__' });
 add({ id: 'viz-km', cls: 'step viz', x: NX + 7200, y: NY - 200, scale: 1.6, ch: 99, day: 99, place: 'By the numbers', html: '__KM__' });
 add({ id: 'thanks', cls: 'step title-step', x: OVX, y: OVY, scale: OVSCALE, ch: 99, day: 99, place: 'ありがとう', html: '__THANKS__', dur: 2600 });
+
+// bike-day panels: nearest free spot around the day's first card
+const boxOf = (t) => t.panel ? [t.panel[0] * t.scale, t.panel[1] * t.scale] : [t.w * 1.08, t.h * 1.08];
+for (const v of steps.filter((t) => t.panel)) {
+  const others = steps.filter((t) => t !== v && (t.w || (t.panel && t.placed)));
+  const [vw, vh] = boxOf(v), M = 160;
+  let best = null;
+  for (const dist of [2600, 3000, 3500, 4000, 4600, 5300, 6100, 7000]) {
+    for (let a = 0; a < 360 && !best; a += 15) {
+      const x = v.near[0] + Math.cos(a * Math.PI / 180) * dist, y = v.near[1] + Math.sin(a * Math.PI / 180) * dist * 0.7;
+      const hit = others.some((t) => { const [tw, th] = boxOf(t); return Math.abs(t.x - x) < (tw + vw) / 2 + M && Math.abs(t.y - y) < (th + vh) / 2 + M; });
+      if (!hit) best = [x, y];
+    }
+    if (best) break;
+  }
+  if (!best) throw new Error('no room for ' + v.id);
+  [v.x, v.y] = best; v.placed = true;
+}
 
 // overlap report for cards
 const cards = steps.filter((s) => s.w);
@@ -384,6 +392,41 @@ function chartPhotos() {
   return `<div class="panel"><header><h2>${fmt(total)} photos, day by day</h2><p>Coloured by how we got around that day — plus 23 videos</p>${legend}</header><svg class="chart" viewBox="0 0 ${W} ${H}">${g}</svg><footer>Photos from both phones. 11 Oct: zero photos — a day of shopping for trail food.</footer></div>`;
 }
 
+function chartBikeDay(di) {
+  const d = BIKE[di], W = 1700, H = 430, ml = 86, mr = 24, mt = 78, mb = 52, pw = W - ml - mr, ph = H - mt - mb;
+  // same scales on every day, so the five slides compare at a glance
+  const KMAX = Math.ceil(Math.max(...BIKE.map((b) => b.km)) / 10) * 10, EMAX = Math.ceil(Math.max(...BIKE.map((b) => b.max)) / 100) * 100 + 100;
+  const x = (km) => ml + km / KMAX * pw, y = (e) => mt + ph - Math.max(0, e) / EMAX * ph, col = MODE.bike.color;
+  let g = '';
+  for (let e = 0; e <= EMAX; e += 100) g += `<line class="grid" x1="${ml}" x2="${ml + pw}" y1="${y(e)}" y2="${y(e)}"/><text class="axl" x="${ml - 14}" y="${y(e) + 7}" text-anchor="end">${e}${e === EMAX ? ' m' : ''}</text>`;
+  for (let k = 0; k <= KMAX; k += 10) g += `<line class="gx" x1="${x(k)}" x2="${x(k)}" y1="${mt + ph}" y2="${mt + ph + 6}"/><text class="axl" x="${x(k)}" y="${mt + ph + 30}" text-anchor="middle">${k}${k === KMAX ? ' km' : ''}</text>`;
+  const pts = d.profile.map(([k, e]) => `${x(k).toFixed(1)} ${y(e).toFixed(1)}`);
+  g += `<defs><linearGradient id="bkg${di}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".5"/><stop offset="1" stop-color="${col}" stop-opacity=".03"/></linearGradient></defs>`;
+  g += `<path d="M${x(0)} ${y(0)}L${pts.join('L')}L${x(d.km)} ${y(0)}Z" fill="url(#bkg${di})"/><path d="M${pts.join('L')}" fill="none" stroke="${col}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  // waypoints: label rows along the top, thin guide down to the profile
+  const eAt = (km) => d.profile.reduce((a, p) => (Math.abs(p[0] - km) < Math.abs(a[0] - km) ? p : a))[1];
+  const rows = [-1e9, -1e9];
+  for (const m of d.marks) {
+    const mx = x(m.km), w = m.label.length * 11.5 + 24, anchor = m.km < 1 ? 'start' : m.km > d.km - 1 ? 'end' : 'middle';
+    const left = anchor === 'start' ? mx : anchor === 'end' ? mx - w : mx - w / 2;
+    const row = left > rows[0] ? 0 : left > rows[1] ? 1 : 0;
+    rows[row] = left + w;
+    const ly = mt - 46 + row * 28;
+    g += `<line x1="${mx}" x2="${mx}" y1="${ly + 8}" y2="${y(eAt(m.km)) - 8}" stroke="#4a5878" stroke-width="1.5" stroke-dasharray="3 5"/>`;
+    g += `<circle cx="${mx}" cy="${y(eAt(m.km))}" r="6" fill="#fff" stroke="#121a2c" stroke-width="2.5"><title>${esc(m.label)} · km ${m.km.toFixed(1)} · ${eAt(m.km)} m</title></circle>`;
+    g += `<text class="anno" x="${mx}" y="${ly}" text-anchor="${anchor}">${esc(m.label)}</text>`;
+  }
+  const tx = x(d.maxKm), ty = y(d.max);
+  g += `<path class="tri-m" d="M${tx} ${ty - 22}L${tx + 11} ${ty - 4}L${tx - 11} ${ty - 4}Z" fill="${col}"/><text class="anno strong" x="${tx + 18}" y="${ty - 8}">${fmt(d.max)} m</text>`;
+  const dt = new Date(d.date + 'T12:00:00Z');
+  const strip = `<div class="bike-strip">${BIKE.map((b, i) => `<div class="${i === di ? 'on' : ''}"><i style="height:${Math.round(b.km / KMAX * 64)}px"></i><span>Day ${i + 1}</span><b>${Math.round(b.km)}</b></div>`).join('')}</div>`;
+  const tiles = [['Distance', `${d.km.toFixed(1)} km`], ['Climbed', `↑ ${fmt(d.up)} m`], ['Descended', `↓ ${fmt(d.down)} m`], ['Highest point', `${fmt(d.max)} m`]];
+  return `<div class="panel bike"><header><h2>Day ${di + 1} on the bikes</h2><p>${WD[dt.getUTCDay()]} ${dt.getUTCDate()} ${MONTHS[dt.getUTCMonth()]} · <strong>${esc(d.from)} → ${esc(d.to)}</strong></p>${strip}</header>`
+    + `<div class="tiles four">${tiles.map(([l, v]) => `<div class="tile"><div class="tl">${l}</div><div class="tv">${v}</div></div>`).join('')}</div>`
+    + `<svg class="chart" viewBox="0 0 ${W} ${H}">${g}</svg>`
+    + `<footer>Estimated: routed along roads between the places our photos were taken (OpenStreetMap), heights from 30 m terrain data with tunnels flattened. Five days, ${fmt(Math.round(KM.bike))} km, ↑ ${fmt(BIKE.reduce((a, b) => a + b.up, 0))} m in total.</footer></div>`;
+}
+
 function chartKm() {
   const rows = [['train', KM.train], ['bike', KM.bike], ['foot', KM.foot]];
   const max = Math.max(...rows.map((r) => r[1]));
@@ -396,7 +439,7 @@ function chartKm() {
     g += `<text class="val" x="${ml + w + 18}" y="${yy + 28}">${fmt(Math.round(v / 5) * 5)}+ km</text>`;
   });
   const tiles = [['Days away', '28'], ['Flown', `≈ ${fmt(Math.round(FLOWN / 1000) * 1000)} km`], ['Highest point', '3,193 m'], ['Mountain huts & tents', '5 nights'], ['Days on bikes', '5'], ['Typhoons dodged', '1']];
-  return `<div class="panel"><header><h2>Ground covered</h2><p>Kilometres in Japan by how we moved</p></header><svg class="chart" viewBox="0 0 ${W} ${H}">${g}</svg><div class="tiles">${tiles.map(([l, v]) => `<div class="tile"><div class="tl">${l}</div><div class="tv">${v}</div></div>`).join('')}</div><footer>Measured in straight lines between the places we stopped, so the real distances were longer. Flights: Kraków → Tokyo and back to Warsaw, as the crow flies.</footer></div>`;
+  return `<div class="panel"><header><h2>Ground covered</h2><p>Kilometres in Japan by how we moved</p></header><svg class="chart" viewBox="0 0 ${W} ${H}">${g}</svg><div class="tiles">${tiles.map(([l, v]) => `<div class="tile"><div class="tl">${l}</div><div class="tv">${v}</div></div>`).join('')}</div><footer>Bikes: routed along the roads we rode. Trains and walks: straight lines between the places we stopped, so those were longer in reality. Flights: Kraków → Tokyo and back to Warsaw, as the crow flies.</footer></div>`;
 }
 
 
@@ -409,10 +452,12 @@ const THANKS = `<div class="ov-inner"><div class="ov-jp">ありがとう</div><d
 const stepHtml = (s) => {
   let html = s.html;
   html = html.replace('__INTRO__', INTRO).replace('__ROUTE__', ROUTE).replace('__THANKS__', THANKS).replace('__ALT__', chartAltitude())
-    .replace('__ALPS__', chartAlps()).replace('__PHOTOS__', chartPhotos()).replace('__KM__', chartKm());
+    .replace('__ALPS__', chartAlps()).replace('__PHOTOS__', chartPhotos()).replace('__KM__', chartKm()).replace(/__BIKE(\d)__/, (_, i) => chartBikeDay(+i));
   const day = s.day !== undefined ? s.day : s.dt ? dayIdx(s.dt) : -1;
   const attrs = [`id="${s.id}"`, `class="${s.cls}"`, `data-x="${r0(s.x)}"`, `data-y="${r0(s.y)}"`, `data-scale="${s.scale}"`];
-  if (s.z) attrs.push(`data-z="${r0(s.z)}"`);
+  // chapter titles float a hair above the photo cards so cards never paint over the title text
+  const z = s.z || (/\bchapter\b/.test(s.cls) ? 4 : 0);
+  if (z) attrs.push(`data-z="${r0(z)}"`);
   if (s.rot) attrs.push(`data-rotate="${s.rot}"`);
   if (s.rotx) attrs.push(`data-rotate-x="${s.rotx}"`);
   if (s.dur) attrs.push(`data-transition-duration="${s.dur}"`);
@@ -421,11 +466,9 @@ const stepHtml = (s) => {
   if (s.place) attrs.push(`data-place="${esc(s.place)}"`);
   return `<div ${attrs.join(' ')}>${html}</div>`;
 };
-const [mcx, mcy] = [(VX0 + VX1) / 2, (VY0 + VY1) / 2];
-const [wcx, wcy] = [(WX0 + WX1) / 2, (WY0 + WY1) / 2];
 const tpl = fs.readFileSync(path.join(HERE, 'template.html'), 'utf8');
 const html = tpl
-  .replace('{{MAP}}', `<div id="map" class="step skip map" data-x="${r0(mcx)}" data-y="${r0(mcy)}" data-scale="${MAPSCALE}">${mapSvg}</div><div id="world" class="step skip map" data-x="${r0(wcx)}" data-y="${r0(wcy)}" data-scale="${WSCALE}">${worldSvg}</div>`)
+  .replace('{{MAPDATA}}', JSON.stringify(MAPDATA))
   .replace('{{STEPS}}', steps.map(stepHtml).join('\n'))
   .replace('{{CHAPTERS}}', JSON.stringify(data.chapters.map((c) => c.en)));
 fs.writeFileSync(path.join(OUT, 'index.html'), html);
