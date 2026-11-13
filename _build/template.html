@@ -52,7 +52,8 @@ body[class*="impress-on-ch-"] .step.card { opacity: .25; }   /* chapter titles: 
   background: rgba(255, 90, 54, .92); padding: 8px 18px; border-radius: 40px; letter-spacing: .02em; }
 .step.card.culled { visibility: hidden; }
 .ph .play { position: absolute; left: 18px; top: 16px; font: 700 18px var(--sans); letter-spacing: .12em; color: #fff; background: rgba(0, 0, 0, .45); padding: 6px 12px; border-radius: 30px; }
-figcaption { height: 118px; display: flex; flex-direction: column; justify-content: center; padding: 0 6px; }
+/* grows when a long caption wraps on a narrow card (a fixed height let the top line slide under the photo) */
+figcaption { min-height: 118px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; padding: 10px 6px 12px; }
 .cap { font: 600 50px/1.02 'Caveat', cursive; color: var(--ink); }
 .meta { font: 600 16px/1.2 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #8d8577; margin-top: 8px; }
 

@@ -1,16 +1,23 @@
-"""Export selected photos/videos for the presentation and compute chart data.
+"""Export the photos/videos that data.json uses into the deck, and compute chart data.
 
-Usage: python export_media.py <scratch_dir> <photos_dir> <out_dir>
+Usage (needs Pillow and ffmpeg):  python export_media.py <photos_dir> [<deck_dir>]
+  photos_dir  the original photos and videos, e.g. ~/Downloads/Do pok
+  deck_dir    where photos/ and videos/ go (default: the folder above _build)
+Reads data.json, private/indexed.json and private/gps.json; writes media.json.
+Media already in deck_dir is kept as is, so a re-run only encodes new items
+(delete a video's .mp4 to re-cut it after changing its ss/t).
 Photos are re-encoded without EXIF (no GPS leaves the machine in the deck).
 """
 import json, os, subprocess, sys
 from collections import Counter
 from PIL import Image, ImageOps
 
-S, SRC, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
-data = json.load(open(os.path.join(S, 'build', 'data.json')))
-idx = json.load(open(os.path.join(S, 'indexed.json')))
-gps = json.load(open(os.path.join(S, 'gps.json')))
+HERE = os.path.dirname(os.path.abspath(__file__))
+SRC = sys.argv[1]
+OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, '..')
+data = json.load(open(os.path.join(HERE, 'data.json')))
+idx = json.load(open(os.path.join(HERE, 'private', 'indexed.json')))
+gps = json.load(open(os.path.join(HERE, 'private', 'gps.json')))
 
 os.makedirs(f'{OUT}/photos/full', exist_ok=True)
 os.makedirs(f'{OUT}/photos/thumb', exist_ok=True)
@@ -26,13 +33,18 @@ used = sorted(set(used))
 media = {}
 for i in used:
     rec = idx[i]
+    full_p, th_p = f'{OUT}/photos/full/p{i:03d}.jpg', f'{OUT}/photos/thumb/p{i:03d}.jpg'
+    if os.path.exists(full_p) and os.path.exists(th_p):
+        with Image.open(full_p) as full:
+            media[i] = {'w': full.width, 'h': full.height, 'dt': rec.get('dt')}
+        continue
     src = os.path.join(SRC, rec['f'])
     im = ImageOps.exif_transpose(Image.open(src)).convert('RGB')
     w, h = im.size
     full = im.copy(); full.thumbnail((1800, 1800), Image.LANCZOS)
-    full.save(f'{OUT}/photos/full/p{i:03d}.jpg', quality=82, optimize=True, progressive=True)
+    full.save(full_p, quality=82, optimize=True, progressive=True)
     th = im.copy(); th.thumbnail((520, 520), Image.LANCZOS)
-    th.save(f'{OUT}/photos/thumb/p{i:03d}.jpg', quality=72, optimize=True)
+    th.save(th_p, quality=72, optimize=True)
     media[i] = {'w': full.width, 'h': full.height, 'dt': rec.get('dt')}
 
 videos = {}
@@ -43,12 +55,16 @@ for ch in data['chapters']:
         v = it['v']
         src = os.path.join(SRC, v + '.mp4')
         out = f'{OUT}/videos/{v}.mp4'
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(it['ss']), '-t', str(it['t']), '-i', src,
-                        '-map_metadata', '-1', '-vf', "scale='if(gt(iw,ih),-2,720)':'if(gt(iw,ih),720,-2)'",
-                        '-c:v', 'libx264', '-crf', '26', '-preset', 'medium', '-pix_fmt', 'yuv420p',
-                        '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', out], check=True)
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '0.3', '-i', out, '-frames:v', '1',
-                        '-q:v', '4', f'{OUT}/videos/{v}.jpg'], check=True)
+        if not (os.path.exists(out) and os.path.exists(f'{OUT}/videos/{v}.jpg')):
+            # whole video, scaled to 720p; optional "ss"/"t" in data.json trim it
+            trim = (['-ss', str(it['ss'])] if 'ss' in it else []) + (['-t', str(it['t'])] if 't' in it else [])
+            subprocess.run(['ffmpeg', '-v', 'error', '-y', *trim, '-i', src,
+                            '-map_metadata', '-1', '-vf', "scale='if(gt(iw,ih),-2,720)':'if(gt(iw,ih),720,-2)'",
+                            '-c:v', 'libx264', '-crf', '26', '-preset', 'medium', '-pix_fmt', 'yuv420p',
+                            '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', out], check=True)
+            # still shown before it plays: the frame at "poster" seconds
+            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(it.get('poster', 0.3)), '-i', out, '-frames:v', '1',
+                            '-q:v', '4', f'{OUT}/videos/{v}.jpg'], check=True)
         probe = subprocess.run(['ffprobe', '-v', 'quiet', '-select_streams', 'v:0', '-show_entries',
                                 'stream=width,height', '-of', 'csv=p=0', out], capture_output=True, text=True).stdout
         vw, vh = [int(x) for x in probe.strip().split(',')[:2]]
@@ -67,6 +83,6 @@ for g in gps:
 
 per_day = Counter((r.get('dt') or '')[:10] for r in idx if r.get('dt'))
 json.dump({'media': media, 'videos': videos, 'fixes': fixes, 'perDay': per_day},
-          open(os.path.join(S, 'build', 'media.json'), 'w'), indent=0)
+          open(os.path.join(HERE, 'media.json'), 'w'), indent=0)
 print(len(used), 'photos;', len(videos), 'videos;', len(fixes), 'gps fixes')
 print(sorted(per_day.items()))

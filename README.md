@@ -17,6 +17,18 @@ node build.mjs ..
 Captions and chapters are in `_build/data.json`. Map, layout and charts are in `_build/build.mjs`.
 The map is drawn into `<canvas>` images by the script in `_build/template.html`.
 
+### Adding photos and videos
+
+The originals stay outside the repo (`~/Downloads/Do pok`); `_build/private/indexed.json` (local only)
+numbers them.
+
+1. Add an item to a chapter in `_build/data.json`: `{"p": 123, "cap": "…", "place": "…"}`, `"p": [a, b]`
+   for two side by side, or `{"v": "VID_…", "poster": 12.3, "cap": "…", "place": "…"}` for a video
+   (used whole; `poster` is the second shown before it plays).
+2. `python export_media.py ~/Downloads/"Do pok"` (Pillow + ffmpeg): encodes only what isn't in
+   `photos/` or `videos/` yet, without EXIF.
+3. `node build.mjs ..`
+
 Bike days: `node bike.mjs` routes each day between the photo locations and samples terrain heights
 (needs network; writes `bike.json`, which is committed, so the normal build stays offline).
 

@@ -103,9 +103,17 @@
     {
      "p": [
       60,
-      70
+      63
      ],
-     "cap": "Harajuku: Happiness Happening & Sailor Moon latte art",
+     "cap": "Harajuku: Happiness Happening & frills on every rack",
+     "place": "Harajuku"
+    },
+    {
+     "p": [
+      70,
+      69
+     ],
+     "cap": "Latte art: Sailor Moon & a 3D foam cat",
      "place": "Harajuku"
     },
     {
@@ -123,8 +131,7 @@
     },
     {
      "v": "VID_20261007_201712",
-     "ss": 12,
-     "t": 14,
+     "poster": 12.3,
      "cap": "teamLab Planets — wading through light",
      "place": "teamLab Planets"
     }
@@ -187,6 +194,11 @@
      "place": "Mt Takao"
     },
     {
+     "p": 113,
+     "cap": "Ridge-top teahouse: miso soup in the sun",
+     "place": "Mt Takao"
+    },
+    {
      "p": 119,
      "cap": "Train home. Zero energy left.",
      "place": "Chūō Line"
@@ -245,10 +257,19 @@
     },
     {
      "v": "VID_20261010_104202",
-     "ss": 0,
-     "t": 5,
+     "poster": 0.3,
      "cap": "Kegon Falls, in motion",
      "place": "Kegon Falls"
+    },
+    {
+     "p": 145,
+     "cap": "Us and the falls",
+     "place": "Kegon Falls"
+    },
+    {
+     "p": 146,
+     "cap": "Stall lunch: hot soup & a bamboo-wrapped parcel",
+     "place": "Chūzenji"
     },
     {
      "p": [
@@ -429,6 +450,12 @@
      "alt": 2400
     },
     {
+     "p": 274,
+     "cap": "Day 3 — 5:55 a.m., Marta ready to go",
+     "place": "Hōō hut",
+     "alt": 2400
+    },
+    {
      "p": 275,
      "cap": "Day 3 — sunrise over a sea of clouds",
      "place": "Hōō Sanzan",
@@ -441,10 +468,25 @@
      "alt": 2764
     },
     {
-     "p": 295,
+     "p": 282,
+     "cap": "Breakfast below the spires, above the clouds",
+     "place": "Jizō-dake",
+     "alt": 2757
+    },
+    {
+     "p": [
+      295,
+      296
+     ],
      "cap": "Takamine, 2,779 m",
      "place": "Takamine",
      "alt": 2779
+    },
+    {
+     "p": 306,
+     "cap": "Day 3, done. Completely done.",
+     "place": "Shirane-Oike hut",
+     "alt": 2230
     },
     {
      "p": 307,
@@ -488,6 +530,12 @@
     {
      "p": 345,
      "cap": "Night 5 — Ryōmata hut",
+     "place": "Ryōmata hut",
+     "alt": 2000
+    },
+    {
+     "p": 348,
+     "cap": "Afternoon nap at Ryōmata hut",
      "place": "Ryōmata hut",
      "alt": 2000
     },
@@ -704,6 +752,11 @@
    ],
    "items": [
     {
+     "p": 458,
+     "cap": "Obama: the microphone man by the hotel door",
+     "place": "Obama"
+    },
+    {
      "p": 459,
      "cap": "Obama's mermaid statues",
      "place": "Obama"
@@ -729,6 +782,11 @@
     {
      "p": 488,
      "cap": "Rocky islets off the beach",
+     "place": "Takahama"
+    },
+    {
+     "p": 489,
+     "cap": "Car-park lunch, thumbs up",
      "place": "Takahama"
     },
     {
@@ -798,7 +856,7 @@
    "id": "kameoka",
    "jp": "亀岡祭",
    "en": "Kameoka Matsuri",
-   "dates": "24 Oct",
+   "dates": "24–25 Oct",
    "sub": "Rain in the valleys, a last campsite, and a festival full of lantern floats",
    "bike": true,
    "path": [
@@ -854,9 +912,20 @@
     },
     {
      "v": "VID_20261024_183149",
-     "ss": 5,
-     "t": 13,
+     "poster": 5.3,
      "cap": "Kameoka Matsuri, live",
+     "place": "Kameoka"
+    },
+    {
+     "v": "VID_20261024_183433654",
+     "poster": 6.3,
+     "cap": "Naniwayama float, the full view",
+     "place": "Kameoka"
+    },
+    {
+     "v": "VID_20261025_073237831",
+     "poster": 14.3,
+     "cap": "Last camp morning: stove on, show on",
      "place": "Kameoka"
     }
    ]
@@ -913,8 +982,7 @@
     },
     {
      "v": "VID_20261025_192955",
-     "ss": 98,
-     "t": 13,
+     "poster": 98.3,
      "cap": "The yōkai parade",
      "place": "Uzumasa"
     },

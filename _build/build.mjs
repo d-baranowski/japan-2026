@@ -185,7 +185,17 @@ function cardHtml(it, ch) {
   const meta = `${WD[t.getUTCDay()]} ${t.getUTCDate()} ${MONTHS[t.getUTCMonth()]} · ${String(t.getUTCHours()).padStart(2, '0')}:${String(t.getUTCMinutes()).padStart(2, '0')}${it.alt ? ` · ${fmt(it.alt)} m` : ''}`;
   const mode = ch.alps ? 'foot' : ch.bike ? 'bike' : ch.id === 'takao' && it.p !== 135 && !(Array.isArray(it.p) && it.p.includes(135)) ? 'foot' : (ch.id === 'depart' ? 'flight' : 'train');
   const html = `<figure class="polaroid tape-${mode}" style="--tilt:${((seeded(steps.length) - 0.5) * 3).toFixed(2)}deg"><div class="photos">${inner}</div><figcaption><span class="cap">${esc(it.cap)}</span><span class="meta">${esc(it.place || '')} · ${meta}</span></figcaption></figure>`;
-  return { html, w: w + 44, h: h + 22 + 118, dt, mode };
+  return { html, w: w + 44, h: h + 22 + capHeight(it.cap, w), dt, mode };
+}
+// the caption strip is at least 118 px and grows with the lines the caption wraps to
+// (Caveat 50 px ≈ 21 px a character, 51 px a line, + the meta line and padding)
+function capHeight(text, width) {
+  const perLine = Math.max(8, Math.floor((width - 12) / 21));
+  let lines = 1, len = 0;
+  for (const word of text.split(/\s+/)) {
+    if (len && len + 1 + word.length > perLine) { lines++; len = word.length; } else len += (len ? 1 : 0) + word.length;
+  }
+  return Math.max(118, lines * 51 + 27 + 22);
 }
 
 function placeAlong(ptsLatLon, n, zig) {
@@ -274,6 +284,22 @@ add({ id: 'viz-alt', cls: 'step viz', x: NX, y: NY, scale: 1.6, ch: 99, day: 99,
 add({ id: 'viz-photos', cls: 'step viz', x: NX + 3600, y: NY + 400, scale: 1.6, ch: 99, day: 99, place: 'By the numbers', html: '__PHOTOS__' });
 add({ id: 'viz-km', cls: 'step viz', x: NX + 7200, y: NY - 200, scale: 1.6, ch: 99, day: 99, place: 'By the numbers', html: '__KM__' });
 add({ id: 'thanks', cls: 'step title-step', x: OVX, y: OVY, scale: OVSCALE, ch: 99, day: 99, place: 'ありがとう', html: '__THANKS__', dur: 2600 });
+
+// where a bend in a chapter's path squeezes two cards into each other (more than the 60 px the
+// rotation hides), push them apart along the shorter axis; cards that don't collide stay put
+const cardOverlap = (a, b) => [(a.w + b.w) / 2 - Math.abs(a.x - b.x), (a.h + b.h) / 2 - Math.abs(a.y - b.y)];
+for (let pass = 0, moved = true; moved && pass < 20; pass++) {
+  moved = false;
+  const cs = steps.filter((s) => s.w && !s.z);
+  for (let i = 0; i < cs.length; i++) for (let j = i + 1; j < cs.length; j++) {
+    const a = cs[i], b = cs[j], [ox, oy] = cardOverlap(a, b);
+    if (ox <= 60 || oy <= 60) continue;
+    if (ox < oy) { const d = (ox / 2) * Math.sign(b.x - a.x || 1); a.x -= d; b.x += d; }
+    else { const d = (oy / 2) * Math.sign(b.y - a.y || 1); a.y -= d; b.y += d; }
+    layoutReport.push(`nudged ${a.id} × ${b.id} apart by ${Math.round(Math.min(ox, oy))}`);
+    moved = true;
+  }
+}
 
 // bike-day panels: nearest free spot around the day's first card
 const boxOf = (t) => t.panel ? [t.panel[0] * t.scale, t.panel[1] * t.scale] : [t.w * 1.08, t.h * 1.08];
