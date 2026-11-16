@@ -238,8 +238,12 @@ for (const ch of data.chapters) {
     add({ id: 'fly-out', cls: 'step flight-step', x: (KR[0] + NR[0]) / 2, y: (KR[1] + NR[1]) / 2 - 26000, scale: 105, ch: ci, dt: c1.dt, place: 'Kraków → Tokyo', html: `<div class="fly-inner"><div class="fly-big">✈</div><div class="fly-t">Kraków → Tokyo</div><div class="fly-s">≈ ${fmt(Math.round(hav(KRK, NRT) / 100) * 100)} km in a straight line · one night in the air</div></div>`, dur: 2200 });
     const c2 = cardHtml(ch.items[1], ch);
     add({ id: 'c-depart-1', cls: 'step card', x: arcOut.mid[0] + 60000, y: arcOut.mid[1] + 20000, scale: 4, rot: 4, ch: ci, dt: c2.dt, place: ch.items[1].place, html: c2.html, dur: 2200 });
-    const c3 = cardHtml(ch.items[2], ch);
-    add({ id: 'c-depart-2', cls: 'step card', x: NR[0] + 600, y: NR[1] + 1700, scale: 1, rot: 2, ch: ci, dt: c3.dt, place: ch.items[2].place, html: c3.html, dur: 2400 });
+    // Narita: the remaining items in a row below the airport, the last one at NR + 600; the first lands with the flight
+    const narita = ch.items.slice(2);
+    narita.forEach((it, j) => {
+      const c = cardHtml(it, ch);
+      add({ id: `c-depart-${j + 2}`, cls: 'step card', x: NR[0] + 600 - (narita.length - 1 - j) * 850, y: NR[1] + 1700 - (narita.length - 1 - j) * 50, scale: 1, rot: (narita.length - 1 - j) % 2 ? -2 : 2, ch: ci, dt: c.dt, place: it.place, html: c.html, w: c.w, h: c.h, ...(j ? {} : { dur: 2400 }) });
+    });
     continue;
   }
   const [ax, ay] = P(...anchors[ch.id]);
@@ -470,7 +474,7 @@ function chartKm() {
 
 
 const legendRow = `<div class="route-legend">${['flight', 'train', 'foot', 'bike'].map((m) => `<span><i class="lg-${m}"></i>${MODE[m].name}</span>`).join('')}<span><i class="lg-dot"></i>Photo with GPS</span></div>`;
-const INTRO = `<div class="ov-inner"><div class="ov-jp">日本</div><div class="ov-en">Japan <span>2026</span></div><div class="ov-sub">${esc(data.travellers)} · 5 October – 1 November</div><div class="ov-meta">28 days · 624 photos · 23 videos · 14 chapters</div>${legendRow}<div class="ov-hint">press → or space</div></div>`;
+const INTRO = `<div class="ov-inner"><div class="ov-jp">日本</div><div class="ov-en">Japan <span>2026</span></div><div class="ov-sub">${esc(data.travellers)} · 5 October – 1 November</div><div class="ov-meta">28 days · 624 photos · 23 videos · 14 chapters</div>${legendRow}<button class="fs-btn" type="button"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Full screen</span></button><div class="ov-hint">press → or space</div></div>`;
 const ROUTE = `<div class="ov-inner"><div class="ov-en small">The whole route</div><div class="ov-sub">From Narita to Nikkō, over the Southern Alps, around Wakasa Bay by bike and back to Tokyo Bay</div><div class="ov-stats"><div><b>≈ ${fmt(Math.round(KM.train / 10) * 10)} km</b><span>by train &amp; bus</span></div><div><b>${fmt(Math.round(KM.bike / 5) * 5)}+ km</b><span>by bike</span></div><div><b>${fmt(Math.round(KM.foot / 5) * 5)}+ km</b><span>on foot in the mountains</span></div><div><b>3,193 m</b><span>highest point</span></div></div>${legendRow}</div>`;
 const THANKS = `<div class="ov-inner"><div class="ov-jp">ありがとう</div><div class="ov-en small">Thank you</div><div class="ov-sub">${esc(data.travellers)} · Japan, October 2026</div><div class="ov-meta">questions, stories and more photos — ask away</div></div>`;
 

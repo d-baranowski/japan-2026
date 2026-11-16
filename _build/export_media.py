@@ -58,8 +58,15 @@ for ch in data['chapters']:
         if not (os.path.exists(out) and os.path.exists(f'{OUT}/videos/{v}.jpg')):
             # whole video, scaled to 720p; optional "ss"/"t" in data.json trim it
             trim = (['-ss', str(it['ss'])] if 'ss' in it else []) + (['-t', str(it['t'])] if 't' in it else [])
-            subprocess.run(['ffmpeg', '-v', 'error', '-y', *trim, '-i', src,
-                            '-map_metadata', '-1', '-vf', "scale='if(gt(iw,ih),-2,720)':'if(gt(iw,ih),720,-2)'",
+            scale = "scale='if(gt(iw,ih),-2,720)':'if(gt(iw,ih),720,-2)'"
+            if 'sfx' in it:   # a sound effect (path relative to _build) mixed over the video's own sound
+                filt = ['-i', os.path.join(HERE, it['sfx']), '-filter_complex',
+                        f"[0:v]{scale}[v];[1:a]volume={it.get('sfxVol', 0.8)}[s];[0:a][s]amix=inputs=2:duration=first:normalize=0[a]",
+                        '-map', '[v]', '-map', '[a]']
+            else:
+                filt = ['-vf', scale]
+            subprocess.run(['ffmpeg', '-v', 'error', '-y', *trim, '-i', src, *filt,
+                            '-map_metadata', '-1',
                             '-c:v', 'libx264', '-crf', '26', '-preset', 'medium', '-pix_fmt', 'yuv420p',
                             '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', out], check=True)
             # still shown before it plays: the frame at "poster" seconds

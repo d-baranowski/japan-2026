@@ -77,6 +77,10 @@ figcaption { min-height: 118px; box-sizing: border-box; display: flex; flex-dire
 .ov-sub { font: 400 36px/1.35 var(--sans); color: #d9dfea; margin-top: 18px; }
 .ov-meta { font: 700 24px var(--sans); letter-spacing: .2em; text-transform: uppercase; color: #9fb3dc; margin-top: 18px; }
 .ov-hint { font: 600 20px var(--sans); color: #7584a8; margin-top: 26px; letter-spacing: .1em; }
+.fs-btn { display: inline-flex; align-items: center; gap: 14px; margin-top: 34px; padding: 16px 32px; cursor: pointer;
+  font: 700 26px var(--sans); letter-spacing: .08em; color: #fff; background: rgba(255, 255, 255, .08);
+  border: 2px solid rgba(255, 255, 255, .4); border-radius: 44px; }
+.fs-btn:hover { background: rgba(255, 255, 255, .2); border-color: #fff; }
 .ov-stats { display: flex; gap: 46px; justify-content: flex-end; margin-top: 30px; }
 .ov-stats b { display: block; white-space: nowrap; font: 700 58px var(--sans); color: #fff; }
 .ov-stats span { font: 600 20px var(--sans); color: #9fb3dc; text-transform: uppercase; letter-spacing: .1em; }
@@ -549,6 +553,23 @@ svg.chart text { font-family: var(--sans); }
     if (e.key === 'o' || e.key === 'O') api.goto('route');
     if (e.key === 'h' || e.key === 'H') hud.classList.toggle('hidden');
   });
+
+  // full-screen button on the title slide (hidden where the browser can't do it, e.g. iPhone Safari)
+  var fsBtn = document.querySelector('.fs-btn');
+  if (fsBtn) {
+    var de = document.documentElement;
+    var fsOn = function () { return document.fullscreenElement || document.webkitFullscreenElement; };
+    if (!(de.requestFullscreen || de.webkitRequestFullscreen)) fsBtn.style.display = 'none';
+    fsBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (fsOn()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else (de.requestFullscreen || de.webkitRequestFullscreen).call(de);
+      fsBtn.blur();   // so space/enter move the slides instead of pressing the button again
+    });
+    var fsLabel = function () { fsBtn.querySelector('span').textContent = fsOn() ? 'Exit full screen' : 'Full screen'; };
+    document.addEventListener('fullscreenchange', fsLabel);
+    document.addEventListener('webkitfullscreenchange', fsLabel);
+  }
 })();
 </script>
 </body>

@@ -24,8 +24,9 @@ numbers them.
 
 1. Add an item to a chapter in `_build/data.json`: `{"p": 123, "cap": "…", "place": "…"}`, `"p": [a, b]`
    for two side by side, or `{"v": "VID_…", "poster": 12.3, "cap": "…", "place": "…"}` for a video
-   (used whole; `poster` is the second shown before it plays).
-2. `python export_media.py ~/Downloads/"Do pok"` (Pillow + ffmpeg): encodes only what isn't in
+   (used whole; `poster` is the second shown before it plays; `"sfx": "sfx/….wav"` mixes a sound over
+   it, see `_build/sfx/make_sfx.py`).
+2. `uv run --with pillow python export_media.py ~/Downloads/"Do pok"` (needs ffmpeg): encodes only what isn't in
    `photos/` or `videos/` yet, without EXIF.
 3. `node build.mjs ..`
 
