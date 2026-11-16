@@ -108,6 +108,11 @@
      "place": "Meiji Jingū"
     },
     {
+     "p": 56,
+     "cap": "An anime stairwell, plushies to the ceiling",
+     "place": "Harajuku"
+    },
+    {
      "p": [
       60,
       63
@@ -122,6 +127,11 @@
      ],
      "cap": "Latte art: Sailor Moon & a 3D foam cat",
      "place": "Harajuku"
+    },
+    {
+     "p": 73,
+     "cap": "Glass wind chimes at dusk",
+     "place": "Tokyo"
     },
     {
      "p": 78,
@@ -211,6 +221,11 @@
      "place": "Chūō Line"
     },
     {
+     "p": 129,
+     "cap": "Akihabara: the claw-machine prizes",
+     "place": "Akihabara"
+    },
+    {
      "p": [
       130,
       135
@@ -285,6 +300,11 @@
      ],
      "cap": "Lake Chūzenji, 1,269 m up",
      "place": "Lake Chūzenji"
+    },
+    {
+     "p": 154,
+     "cap": "Gold-leaf Kannon, a thousand arms",
+     "place": "Nikkō"
     },
     {
      "p": [
@@ -451,19 +471,40 @@
      "alt": 2750
     },
     {
+     "p": [
+      257,
+      261
+     ],
+     "cap": "Granite, golden larch and drifting cloud",
+     "place": "Hōō Sanzan",
+     "alt": 2750
+    },
+    {
+     "p": 262,
+     "cap": "Sunbeams through the fog",
+     "place": "Hōō Sanzan trail",
+     "alt": 2500
+    },
+    {
      "p": 265,
      "cap": "Night 2 — Hōō hut, everyone drying out",
      "place": "Hōō hut",
      "alt": 2400
     },
     {
-     "p": 274,
+     "p": [
+      274,
+      271
+     ],
      "cap": "Day 3 — 5:55 a.m., Marta ready to go",
      "place": "Hōō hut",
      "alt": 2400
     },
     {
-     "p": 275,
+     "p": [
+      275,
+      278
+     ],
      "cap": "Day 3 — sunrise over a sea of clouds",
      "place": "Hōō Sanzan",
      "alt": 2600
@@ -481,6 +522,12 @@
      "alt": 2757
     },
     {
+     "p": 287,
+     "cap": "Hundreds of little jizō below Jizō-dake",
+     "place": "Jizō-dake",
+     "alt": 2730
+    },
+    {
      "p": [
       295,
       296
@@ -488,6 +535,11 @@
      "cap": "Takamine, 2,779 m",
      "place": "Takamine",
      "alt": 2779
+    },
+    {
+     "p": 303,
+     "cap": "Down the scree, Kitadake across the valley",
+     "place": "Hōō Sanzan"
     },
     {
      "p": 306,
@@ -523,16 +575,34 @@
      "alt": 3193
     },
     {
-     "p": 334,
+     "p": [
+      331,
+      334
+     ],
      "cap": "Day 5 — sunrise behind Fuji",
      "place": "Kitadake-sansō",
      "alt": 2900
+    },
+    {
+     "p": 332,
+     "cap": "A cloud cap pouring over the ridge",
+     "place": "Nakashirane",
+     "alt": 3000
     },
     {
      "p": 337,
      "cap": "Ainodake, 3,190 m — Fuji on the right",
      "place": "Ainodake 間ノ岳",
      "alt": 3190
+    },
+    {
+     "p": [
+      342,
+      344
+     ],
+     "cap": "Down to Ryōmata: towel-cape break, moss and roots",
+     "place": "Ryōmata trail",
+     "alt": 2614
     },
     {
      "p": 345,
@@ -557,6 +627,12 @@
      "cap": "The bus out of the mountains",
      "place": "Minami Alps forest road",
      "alt": 1300
+    },
+    {
+     "p": 363,
+     "cap": "Senryūsō, the lodge where the mountain bus ends",
+     "place": "Senryūsō, Ina",
+     "alt": 900
     },
     {
      "p": [
@@ -671,12 +747,27 @@
      "place": "Ōhara"
     },
     {
+     "p": 382,
+     "cap": "Ōhara snack stall, Anpanman approves",
+     "place": "Ōhara"
+    },
+    {
+     "p": 385,
+     "cap": "Sanzen-in: the pond garden off the veranda",
+     "place": "Sanzen-in"
+    },
+    {
      "p": [
       386,
       403
      ],
      "cap": "Sanzen-in: moss gardens & warabe-jizō",
      "place": "Sanzen-in"
+    },
+    {
+     "p": 396,
+     "cap": "Rows and rows of little bronze figures",
+     "place": "Ōhara"
     },
     {
      "p": 410,
@@ -771,6 +862,11 @@
     {
      "p": 463,
      "cap": "Cliff road along Wakasa Bay",
+     "place": "Wakasa Bay"
+    },
+    {
+     "p": 465,
+     "cap": "Monkeys on the coast road",
      "place": "Wakasa Bay"
     },
     {
@@ -918,6 +1014,11 @@
      "place": "Kameoka"
     },
     {
+     "p": 538,
+     "cap": "A fox-faced festival lantern",
+     "place": "Kameoka"
+    },
+    {
      "v": "VID_20261024_183149",
      "poster": 5.3,
      "cap": "Kameoka Matsuri, live",
@@ -1002,6 +1103,11 @@
      "p": 571,
      "cap": "Totoro, obviously",
      "place": "Kyoto"
+    },
+    {
+     "p": 578,
+     "cap": "Ninomaru Palace: the shōgun’s audience, in mannequins",
+     "place": "Nijō Castle"
     },
     {
      "p": [

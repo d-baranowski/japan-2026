@@ -514,6 +514,12 @@ svg.chart text { font-family: var(--sans); }
     });
   }
 
+  // videos are preload="none" until their slide is next up; then they start downloading
+  function warmVideo(s) {
+    var v = s && s.querySelector('video');
+    if (v && !v.getAttribute('src')) { v.preload = 'auto'; v.setAttribute('src', v.dataset.src); }
+  }
+
   document.addEventListener('impress:stepenter', function (e) {
     var st = e.target, i = steps.indexOf(st);
     cull(i);
@@ -530,6 +536,7 @@ svg.chart text { font-family: var(--sans); }
     } else {
       hud.classList.add('hidden');
     }
+    warmVideo(steps[i + 1]);   // start buffering the next slide's video while this one is shown
     var v = st.querySelector('video');
     if (v) {
       if (!v.getAttribute('src')) v.setAttribute('src', v.dataset.src);
@@ -539,11 +546,31 @@ svg.chart text { font-family: var(--sans); }
       if (p && p.catch) p.catch(function () { v.muted = true; v.play().catch(function () {}); });
     }
   });
+  // A window resize (entering or leaving full screen too) makes impress re-fit the current step with a
+  // 500 ms zoom. During it Chrome rasterises every visible card at full size, and the wide steps
+  // (overview, route, thanks) show all the cards: GPU tile memory runs out and the background goes
+  // white. So hide the far cards while it settles, as in a flight, then bring them back and redraw the
+  // map at the new size.
+  var resizeTimer = 0;
+  window.addEventListener('resize', function () {
+    var i = steps.indexOf(document.querySelector('.step.active'));
+    if (i < 0) return;
+    cullForFlight(i, i);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      var st = document.querySelector('.step.active');
+      cull(steps.indexOf(st));
+      land(st);
+    }, 1300);
+  });
+
   document.addEventListener('impress:stepleave', function (e) {
+    clearTimeout(resizeTimer);   // the flight's own culling takes over
     var v = e.target.querySelector('video');
     if (v) v.pause();
     var next = e.detail && e.detail.next;
     if (next) {
+      warmVideo(next);   // jumped straight here (o, a click): buffer during the flight
       var ni = steps.indexOf(next), ci = steps.indexOf(e.target);
       cullForFlight(ci, ni);
       swapImages(ni);

@@ -37,6 +37,6 @@ Bike days: `node bike.mjs` routes each day between the photo locations and sampl
 
 ```sh
 cd _build/perf
-node run.mjs mylabel        # walks every slide in real Chrome, records frames, blank tiles, GPU memory
+node run.mjs mylabel --size 1920x1080   # walks every slide in real Chrome (that viewport @2x): frames, blank tiles, GPU memory
 node summary.cjs mylabel 10
 ```

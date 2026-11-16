@@ -2,7 +2,8 @@
 //   fps / longest frame gap, checkerboarded (missing) tiles in flight and after arrival,
 //   GPU tile-memory OOM, longest main-thread task, plus a screenshot on arrival.
 // usage (from _build/perf, after pnpm install in _build):
-//   node run.mjs <label> [deckUrl] [--from N] [--to M] [--no-shots]   → out/<label>/results.json + screenshots
+//   node run.mjs <label> [deckUrl] [--from N] [--to M] [--no-shots] [--size 1920x1080]   → out/<label>/results.json + screenshots
+//   --size emulates that CSS viewport at 2x (a tiling window manager may shrink the real window)
 //   node summary.cjs <label> [N worst]
 // Opens a separate Chrome profile (perf/chrome-prof) on macOS Chrome; change executablePath elsewhere.
 import puppeteer from 'puppeteer-core';
@@ -24,6 +25,8 @@ const browser = await puppeteer.launch({
   args: ['--window-size=1920,1080', '--window-position=0,0', '--no-first-run', '--no-default-browser-check', '--autoplay-policy=no-user-gesture-required'],
 });
 const [page] = await browser.pages();
+const SIZE = (() => { const i = args.indexOf('--size'); return i >= 0 ? args[i + 1].split('x').map(Number) : null; })();
+if (SIZE) await page.setViewport({ width: SIZE[0], height: SIZE[1], deviceScaleFactor: 2 });
 await page.goto(DECK, { waitUntil: 'load' });
 await new Promise((r) => setTimeout(r, 2500));
 const meta = await page.evaluate(() => {
