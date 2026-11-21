@@ -80,6 +80,14 @@
      "place": "Golden Gai"
     },
     {
+     "p": [
+      18,
+      19
+     ],
+     "cap": "Golden Gai: signed boards & habu sake, snake included",
+     "place": "Golden Gai"
+    },
+    {
      "p": 21,
      "cap": "Breakfast: anpan, the red-bean bun",
      "place": "Shinjuku"
@@ -97,6 +105,14 @@
     {
      "p": 40,
      "cap": "Meiji Jingū — the great wooden torii",
+     "place": "Meiji Jingū"
+    },
+    {
+     "p": [
+      45,
+      42
+     ],
+     "cap": "Us at Meiji Jingū, under the sacred trees",
      "place": "Meiji Jingū"
     },
     {
@@ -129,6 +145,11 @@
      "place": "Harajuku"
     },
     {
+     "p": 71,
+     "cap": "Latte verdict: wink & peace sign",
+     "place": "Harajuku"
+    },
+    {
      "p": 73,
      "cap": "Glass wind chimes at dusk",
      "place": "Tokyo"
@@ -137,6 +158,11 @@
      "p": 78,
      "cap": "Toyosu waterfront after dark",
      "place": "Toyosu"
+    },
+    {
+     "p": 79,
+     "cap": "teamLab: a forest of hanging lights",
+     "place": "teamLab Planets"
     },
     {
      "p": [
@@ -219,6 +245,11 @@
      "p": 119,
      "cap": "Train home. Zero energy left.",
      "place": "Chūō Line"
+    },
+    {
+     "p": 124,
+     "cap": "Sailor Moon Store: Marta found the mothership",
+     "place": "Tokyo"
     },
     {
      "p": 129,
@@ -333,6 +364,11 @@
      "place": "Shinkyō"
     },
     {
+     "p": 200,
+     "cap": "See no evil, hear no evil… smell no evil",
+     "place": "Nikkō"
+    },
+    {
      "p": 203,
      "cap": "Back in Tokyo: okonomiyaki, DIY",
      "place": "Tokyo"
@@ -365,6 +401,11 @@
    ],
    "items": [
     {
+     "p": 208,
+     "cap": "Lucky gods by a pink crystal rock",
+     "place": "Shōsenkyō"
+    },
+    {
      "p": 209,
      "cap": "First glimpse of Fuji from the Shōsenkyō ropeway",
      "place": "Shōsenkyō"
@@ -378,8 +419,21 @@
      "place": "Shōsenkyō"
     },
     {
-     "p": 221,
+     "p": 219,
+     "cap": "A frog shrine tucked into the cliff",
+     "place": "Shōsenkyō"
+    },
+    {
+     "p": [
+      221,
+      220
+     ],
      "cap": "Shōsenkyō gorge",
+     "place": "Shōsenkyō"
+    },
+    {
+     "p": 222,
+     "cap": "Marta joins the line of lucky gods",
      "place": "Shōsenkyō"
     },
     {
@@ -528,6 +582,11 @@
      "alt": 2730
     },
     {
+     "p": 288,
+     "cap": "Yellow hat, blue sky, cloud sea below",
+     "place": "Jizō-dake"
+    },
+    {
      "p": [
       295,
       296
@@ -535,6 +594,11 @@
      "cap": "Takamine, 2,779 m",
      "place": "Takamine",
      "alt": 2779
+    },
+    {
+     "p": 297,
+     "cap": "Above the clouds at Takamine",
+     "place": "Takamine"
     },
     {
      "p": 303,
@@ -558,6 +622,11 @@
      "cap": "Day 4 — Fuji floating on the horizon",
      "place": "Kitadake",
      "alt": 2700
+    },
+    {
+     "p": 315,
+     "cap": "Daniel on the ridge, autumn far below",
+     "place": "Kitadake"
     },
     {
      "p": 318,
@@ -590,10 +659,18 @@
      "alt": 3000
     },
     {
-     "p": 337,
+     "p": [
+      337,
+      336
+     ],
      "cap": "Ainodake, 3,190 m — Fuji on the right",
      "place": "Ainodake 間ノ岳",
      "alt": 3190
+    },
+    {
+     "p": 341,
+     "cap": "Leaving Ainodake along the ridge",
+     "place": "Ainodake 間ノ岳"
     },
     {
      "p": [
@@ -627,6 +704,11 @@
      "cap": "The bus out of the mountains",
      "place": "Minami Alps forest road",
      "alt": 1300
+    },
+    {
+     "p": 358,
+     "cap": "Off the mountain: a Chocola BB and a grin",
+     "place": "Ina"
     },
     {
      "p": 363,
@@ -988,6 +1070,11 @@
     {
      "p": 522,
      "cap": "Day 5 — porridge on the stove",
+     "place": "Miyama"
+    },
+    {
+     "p": 523,
+     "cap": "Day 5 — rolling out in the drizzle",
      "place": "Miyama"
     },
     {
