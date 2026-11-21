@@ -57,7 +57,7 @@ for ch in data['chapters']:
         out = f'{OUT}/videos/{v}.mp4'
         if not (os.path.exists(out) and os.path.exists(f'{OUT}/videos/{v}.jpg')):
             # whole video, scaled to 720p; optional "ss"/"t" in data.json trim it.
-            # Capped at 1.6 Mbps (moov atom up front) so it starts and streams quickly off GitHub Pages.
+            # Capped at 1 Mbps, a keyframe every 2 s (moov atom up front) so it starts and streams quickly off GitHub Pages.
             trim = (['-ss', str(it['ss'])] if 'ss' in it else []) + (['-t', str(it['t'])] if 't' in it else [])
             scale = "scale='if(gt(iw,ih),-2,720)':'if(gt(iw,ih),720,-2)'"
             if 'sfx' in it:   # a sound effect (path relative to _build) mixed over the video's own sound
@@ -68,8 +68,8 @@ for ch in data['chapters']:
                 filt = ['-vf', scale]
             subprocess.run(['ffmpeg', '-v', 'error', '-y', *trim, '-i', src, *filt,
                             '-map_metadata', '-1',
-                            '-c:v', 'libx264', '-crf', '28', '-maxrate', '1600k', '-bufsize', '3200k', '-preset', 'slow', '-profile:v', 'high', '-pix_fmt', 'yuv420p',
-                            '-c:a', 'aac', '-b:a', '80k', '-movflags', '+faststart', out], check=True)
+                            '-c:v', 'libx264', '-crf', '30', '-maxrate', '1000k', '-bufsize', '1500k', '-g', '60', '-preset', 'slow', '-profile:v', 'high', '-pix_fmt', 'yuv420p',
+                            '-c:a', 'aac', '-b:a', '64k', '-movflags', '+faststart', out], check=True)
             # still shown before it plays: the frame at "poster" seconds
             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(it.get('poster', 0.3)), '-i', out, '-frames:v', '1',
                             '-q:v', '4', f'{OUT}/videos/{v}.jpg'], check=True)

@@ -536,7 +536,7 @@ svg.chart text { font-family: var(--sans); }
     } else {
       hud.classList.add('hidden');
     }
-    warmVideo(steps[i + 1]);   // start buffering the next slide's video while this one is shown
+    warmVideo(steps[i + 1]); warmVideo(steps[i + 2]);   // start buffering the next two slides' videos while this one is shown
     var v = st.querySelector('video');
     if (v) {
       if (!v.getAttribute('src')) v.setAttribute('src', v.dataset.src);
